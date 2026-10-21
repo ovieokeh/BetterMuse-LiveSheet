@@ -26,7 +26,9 @@ uploaded. Preparation requires no external services. Offline worker verification
 network access entirely. Compose uses a normal Docker bridge so the host can
 reach its loopback-only published port; outbound traffic is not firewall-blocked.
 
-The API is available only on the Mac's loopback interface. Job files and caches
+By default, the API is available only on the Mac's loopback interface.
+The opt-in `compose.device.yaml` adds an authenticated private-LAN listener; see
+[local integration](docs/local-integration.md). Job files and caches
 live in `data/`, outside the image. The container runs as a non-root user with a
 read-only root filesystem. Do not publish port 3176 on a public interface.
 

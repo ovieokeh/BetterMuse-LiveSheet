@@ -635,7 +635,7 @@ class Handler(BaseHTTPRequestHandler):
     do_DELETE = dispatch
 
 
-def main():
+def parse_args(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--port", type=int, default=3176)
     parser.add_argument("--bind", choices=("127.0.0.1", "0.0.0.0"), default="127.0.0.1", help="Use 0.0.0.0 only inside a container with a loopback-only host port")
@@ -648,14 +648,21 @@ def main():
         "--native-host", help="Opt-in private LAN IPv4 address; never 0.0.0.0"
     )
     parser.add_argument("--native-port", type=int, default=3177)
+    parser.add_argument("--native-bind", choices=("0.0.0.0",),
+                        help="Container only: bind internally while publishing only native-host")
     parser.add_argument(
         "--native-name", help="Optional local mDNS hostname, e.g. phoenix.local"
     )
     parser.add_argument("--native-token-file", type=Path)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
+    if not args.native_host and (args.native_bind or args.native_name or args.native_token_file):
+        parser.error("native-host is required for native listener options")
     token = None
     if args.native_host:
-        address = ipaddress.ip_address(args.native_host)
+        try:
+            address = ipaddress.ip_address(args.native_host)
+        except ValueError:
+            parser.error("native-host must be a private LAN IPv4 address")
         if (
             address.version != 4
             or not address.is_private
@@ -674,13 +681,18 @@ def main():
             r"[a-zA-Z0-9-]+\.local", args.native_name
         ):
             parser.error("native-name must be a local mDNS hostname")
+    return args, token
+
+
+def main():
+    args, token = parse_args()
     jobs = Jobs(args.storage, args.audiveris, args.musescore)
     os.umask(0o077)
     server = BoundedHTTPServer((args.bind, args.port), Handler)
     server.jobs = jobs
     native = None
     if token:
-        native = BoundedHTTPServer((args.native_host, args.native_port), Handler)
+        native = BoundedHTTPServer((args.native_bind or args.native_host, args.native_port), Handler)
         native.jobs, native.native_token = jobs, token
         native.native_hosts = {f"{args.native_host}:{args.native_port}"}
         if args.native_name:
