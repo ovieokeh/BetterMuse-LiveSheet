@@ -4,6 +4,9 @@ from dataclasses import dataclass
 from pathlib import Path
 import os
 
+# Output provenance version, not a selectable preparation mode.
+PREPARATION_PROFILE = "experimental-v1"
+
 
 @dataclass(frozen=True)
 class AudiverisRuntime:
@@ -58,11 +61,8 @@ class Toolchain:
 class JobConfig:
     folder: Path
     tools: Toolchain
-    profile: str = "standard"
 
     def __post_init__(self):
-        if self.profile not in ("standard", "experimental-v1"):
-            raise ValueError("invalid_preparation_profile")
         object.__setattr__(self, "folder", self.folder.resolve())
 
 

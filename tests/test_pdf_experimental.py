@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 from livesheet.testing.check_pdf_experiment import regressions
 from livesheet.pdf_experimental import check_change_scope
-from livesheet.worker import experimental_package
+from livesheet.worker import repaired_package
 from livesheet.playback import default_config
 
 
@@ -36,13 +36,14 @@ class ExperimentalTests(unittest.TestCase):
             b.write_text(xml.replace('</measure>','<barline><repeat direction="backward"/></barline></measure>'))
             with self.assertRaisesRegex(ValueError,'changed-repeats'): check_change_scope(a,b,{0})
 
-    def test_failed_candidate_retains_baseline_and_explicit_report(self):
+    def test_failed_candidate_keeps_evidence_but_never_delivers_baseline(self):
         with tempfile.TemporaryDirectory() as d:
             folder=Path(d); baseline=dict(notes=[dict(midi=60)],pages=[{}]); companion=dict(notes=[dict(midi=60)])
             with patch('livesheet.pdf_experimental.prepare_candidate',side_effect=ValueError('rejected')):
-                result, native, report=experimental_package(folder,{},folder/'source.pdf',folder/'score.pdf',{},baseline,companion,lambda _:None,default_config())
-            self.assertIs(result,baseline); self.assertIs(native,companion)
-            self.assertEqual(report['status'],'fallback')
+                with self.assertRaisesRegex(ValueError, 'repair_validation_failed'):
+                    repaired_package(folder,{},folder/'source.pdf',folder/'score.pdf',{},baseline,companion,lambda _:None,default_config())
+            self.assertFalse((folder/'completion.json').exists())
+            self.assertEqual(json.loads((folder/'quality.json').read_text())['status'], 'failed')
             self.assertEqual(json.loads((folder/'baseline-score.json').read_text()),baseline)
             self.assertIn('rejected',json.loads((folder/'quality.json').read_text())['reason'])
 
@@ -51,8 +52,9 @@ class ExperimentalTests(unittest.TestCase):
             folder=Path(d); baseline=dict(notes=[],pages=[{}]); companion={}
             (folder/'score.pdf').write_bytes(b'placeholder')
             with patch('livesheet.pdf_experimental.prepare_candidate',return_value=({},folder,dict(profile='experimental-v1'))), patch('livesheet.playback.prepare',side_effect=ValueError('incomplete-playback')):
-                result, _, report=experimental_package(folder,{},folder/'source.pdf',folder/'score.pdf',{},baseline,companion,lambda _:None,default_config())
-            self.assertIs(result,baseline); self.assertEqual(report['status'],'fallback')
+                with self.assertRaisesRegex(ValueError, 'repair_validation_failed'):
+                    repaired_package(folder,{},folder/'source.pdf',folder/'score.pdf',{},baseline,companion,lambda _:None,default_config())
+            self.assertFalse((folder/'completion.json').exists())
             self.assertIn('incomplete-playback', json.loads((folder/'quality.json').read_text())['reason'])
 
 if __name__ == '__main__': unittest.main()

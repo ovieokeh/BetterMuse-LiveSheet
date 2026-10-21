@@ -14,8 +14,9 @@ from livesheet.pdf_rhythm_evidence import PDFHeadEvidence
 from livesheet.score_recognition import read_mxl
 from livesheet.playback import written_notes_source
 
+from livesheet.pdf_pipeline.config import PREPARATION_PROFILE as PROFILE
+
 ROOT = Path(__file__).resolve().parents[1]
-PROFILE = "experimental-v1"
 
 
 def sha(path):

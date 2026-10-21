@@ -9,7 +9,7 @@ python3 tools/test.py
 ```
 
 The tests import the installed package inside the image. They do not mount the
-LiveSheet or BetterMuse source tree. The clean suite discovers 235 tests; 38 need
+LiveSheet or BetterMuse source tree. The clean suite discovers 240 tests; 38 need
 private regression excerpts and are explicitly skipped when absent.
 
 For the complete local set, supply the private excerpts in `tests/data/pdf-quality`
@@ -77,3 +77,41 @@ filesystem, bounded CPU/memory/process counts and writable test storage only.
 
 See `extraction-verification.json` for this checkpoint's results and tested image.
 Detailed logs and private review evidence remain in ignored `artifacts/`.
+
+## Single-pipeline migration: exposed repair failure
+
+Removing the delivery fallback exposed `meter-ties--petaluma-wide` from the
+included generated corpus. Its candidate introduces a newly overfull measure.
+The unchanged guard rejects it with `repair-introduced-overfull-measure`.
+Previously, the worker returned the validated initial export and called the job
+ready. It now reports `repair_validation_failed` and writes no completion marker.
+
+This is an unresolved repair defect, not a newly accepted test outcome. Keep the
+case in the normal benchmark and keep its expected references unchanged. The full
+benchmark must remain red until the repair defect is fixed. Investigate the
+candidate's meter/voice accounting against the printed reference before changing
+any repair rule. Do not restore delivery fallback or weaken the overfull check.
+
+Evidence: `artifacts/single-pipeline-verification/jobs/meter-ties--petaluma-wide/`
+contains the source, intermediate candidate, quality report and failure record.
+There are also unit regressions requiring repair/export rejection to raise and
+leave no deliverable completion marker.
+
+### Migration verification result — 2026-10-21
+
+- 240 Linux tests passed with zero skips, including rejection and legacy-job retry checks.
+- 35 of 36 end-to-end score checks passed. The single exposed repair failure above
+  remains unresolved and keeps the full benchmark red.
+- Bella's Lullaby, Peaceful Sleep and Cuddy's Serenade matched their reviewed
+  musical events exactly. Generated/reference expectations were not changed.
+- Fresh website and authenticated native uploads omitted preparation headers.
+  Both used the repair pipeline, verified output integrity, and survived restart.
+- All 38 migrated jobs retained their results and access boundaries.
+- Website request tests, TypeScript, targeted lint and Spanish coverage passed.
+- BetterMuse Dev launched on Trill. Its existing binary needs no change: the
+  default service path now includes repairs. Existing device companions were not
+  regenerated. Physical-device import/listening remains a manual check.
+
+Evidence: `artifacts/single-pipeline-clients.json`,
+`artifacts/single-pipeline-verification/report.json`, and
+`artifacts/single-pipeline-linux-tests.log`. All work remains local.

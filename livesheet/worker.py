@@ -14,16 +14,14 @@ import os
 from pathlib import Path
 import signal
 import resource
-import shutil
 import subprocess
-import sys
 
 import pymupdf
 from livesheet import recognition as pipeline
 from livesheet import playback as playback
 from livesheet import companion as native
 
-from livesheet.pdf_preflight import inspect_pdf, processing_copy, MAX_BYTES, MAX_PAGES
+from livesheet.pdf_preflight import inspect_pdf, processing_copy
 
 
 def finalize_web_performance(performance, job_id):
@@ -35,7 +33,7 @@ def finalize_web_performance(performance, job_id):
     performance["revision"] = hashlib.sha256(native.encode(performance)).hexdigest()
 
 
-def experimental_package(
+def repaired_package(
     folder,
     entry,
     source,
@@ -48,7 +46,7 @@ def experimental_package(
 ):
     from livesheet.pdf_experimental import prepare_candidate, PROFILE, fingerprint
 
-    # Baseline is a complete, validated package before the experiment starts.
+    # Keep intermediate evidence for diagnosis; it is never a delivery fallback.
     baseline_raw = native.encode(baseline_companion)
     if len(baseline_raw) > 16 * 1024 * 1024:
         raise ValueError("companion_size_limit")
@@ -56,7 +54,7 @@ def experimental_package(
     (folder / "baseline-companion.json").write_bytes(baseline_raw)
     report = dict(
         profile=PROFILE,
-        status="fallback",
+        status="failed",
         musicalReview="unreviewed",
         algorithmSHA256=fingerprint(),
         reason="candidate_failed_validation",
@@ -134,19 +132,15 @@ def experimental_package(
     except Exception as error:
         traceback.print_exc()
         report.update(
-            status="fallback", reason=type(error).__name__ + ": " + str(error)
+            status="failed", reason=type(error).__name__ + ": " + str(error)
         )
         pipeline.atomic_json(folder / "quality.json", report)
-        return (
-            baseline,
-            baseline_companion,
-            dict(profile=PROFILE, status="fallback", changedMeasureIndices=[]),
-        )
+        raise ValueError("repair_validation_failed") from error
 
 
 def recover_incomplete_repeats(folder, entry, result, progress, settings):
     exports = settings.playback
-    """Experimental rescue only when a complete baseline export was rejected."""
+    """Recover repeats only when the initial export was rejected."""
     from livesheet.pdf_repeat_recovery import recover
 
     recognition = settings.cache / "score"
@@ -193,11 +187,11 @@ def recover_incomplete_repeats(folder, entry, result, progress, settings):
         return result
 
 
-def prepare_job(folder, audiveris, musescore, profile="standard"):
+def prepare_job(folder, audiveris, musescore):
     from livesheet.pdf_pipeline.config import JobConfig, Toolchain, job_exports
 
     tools = Toolchain.configured(audiveris, musescore, pipeline.TESSDATA)
-    config = JobConfig(folder, tools, profile)
+    config = JobConfig(folder, tools)
     tools.validate()
     version = subprocess.check_output(
         [tools.musescore, "--version"], text=True, timeout=30
@@ -214,8 +208,8 @@ def _prepare_job(config, settings):
     exports_config = settings.playback
     from livesheet.pdf_pipeline.artifacts import atomic_bytes, commit_result
 
-    folder, profile = config.folder, config.profile
-    audiveris, musescore = config.tools.audiveris, config.tools.musescore
+    folder = config.folder
+    audiveris = config.tools.audiveris
     # A previous completion cannot certify a new or interrupted attempt.
     (folder / "completion.json").unlink(missing_ok=True)
 
@@ -278,12 +272,11 @@ def _prepare_job(config, settings):
         ]
     )
     adapter += exports_config.engine_version + pipeline.export_recovery.fingerprint()
-    if profile == "experimental-v1":
-        from livesheet.pdf_experimental import fingerprint
+    from livesheet.pdf_experimental import fingerprint
 
-        adapter += json.dumps(fingerprint(), sort_keys=True)
+    adapter += json.dumps(fingerprint(), sort_keys=True)
     args = argparse.Namespace(
-        recover_terminal_measure=profile == "experimental-v1",
+        recover_terminal_measure=True,
         audiveris=audiveris,
         pdf_dpi=None,
         retry_profiles=[400],
@@ -298,8 +291,7 @@ def _prepare_job(config, settings):
         entry, args, engine, adapter, progress, config=settings
     )
     if (
-        profile == "experimental-v1"
-        and result["status"] == "failed"
+        result["status"] == "failed"
         and result.get("error") == "incomplete-playback"
     ):
         result = recover_incomplete_repeats(folder, entry, result, progress, settings)
@@ -345,19 +337,17 @@ def _prepare_job(config, settings):
     companion = native.prepare(
         "score", entry, source, performance, None, recognition, timing
     )
-    preparation = dict(profile="standard", status="standard")
-    if profile == "experimental-v1":
-        performance, companion, preparation = experimental_package(
-            folder,
-            entry,
-            source,
-            working_source,
-            processing_mapping,
-            performance,
-            companion,
-            progress,
-            exports_config,
-        )
+    performance, companion, preparation = repaired_package(
+        folder,
+        entry,
+        source,
+        working_source,
+        processing_mapping,
+        performance,
+        companion,
+        progress,
+        exports_config,
+    )
     if result.get("repeatRecovery"):
         preparation["baselineRepaired"] = True
     # The native installer imposes the same payload size ceiling.
@@ -402,12 +392,9 @@ def main():
     parser.add_argument("--job-dir", type=Path, required=True)
     parser.add_argument("--audiveris", type=Path, default=pipeline.AUDIVERIS)
     parser.add_argument("--musescore", default=playback.MSCORE)
-    parser.add_argument(
-        "--profile", choices=["standard", "experimental-v1"], default="standard"
-    )
     args = parser.parse_args()
     try:
-        prepare_job(args.job_dir, args.audiveris, args.musescore, args.profile)
+        prepare_job(args.job_dir, args.audiveris, args.musescore)
     except Exception as error:
         pipeline.atomic_json(args.job_dir / "failure.json", dict(error=str(error)))
         raise

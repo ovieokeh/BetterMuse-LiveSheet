@@ -95,7 +95,6 @@ def main():
                 headers={
                     "Content-Type": "application/pdf",
                     "X-Filename": "Linux service check.pdf",
-                    "X-Preparation-Profile": "experimental-v1",
                 },
             )
             ident = job["id"]

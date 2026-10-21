@@ -38,7 +38,8 @@ not. No score-specific musical rules were introduced for the split.
 
 A repair receives an immutable input and proposes a separate output. A decline
 keeps the prior candidate. Unexpected stage errors abort candidate preparation;
-the validated-baseline fallback remains in place. Diagnostic records distinguish
+the job fails without a deliverable completion marker. Intermediate packages
+are retained as diagnostic evidence, never as a fallback delivery. Diagnostic records distinguish
 applied, unchanged and declined results.
 
 ## Adding a repair

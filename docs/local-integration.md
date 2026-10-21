@@ -75,11 +75,15 @@ jobs, and refuse conflicting job IDs.
 
 ## Client behavior
 
-This cutover does not change the app or website's preparation profile selection.
-The website's repaired upload path requests `experimental-v1`. The current
-native client omits the profile header and therefore uses `standard`. Changing
-that default is a separate product change; both paths keep their existing
-validation. Download formats and practice behavior are unchanged.
+All new app and website uploads use the same repair pipeline. Neither client
+needs a mode header. The old `standard` mode and the website's version switch
+have been removed. The provenance string `experimental-v1` is retained for
+compatibility with existing artifacts; it is not a selectable mode.
+
+Existing ready jobs remain unchanged. Idempotent retries of an upload request
+return the existing job. Explicit retries of failed/cancelled jobs and resumed
+unfinished jobs run the current pipeline. Validation failures fail preparation;
+intermediate output remains diagnostic evidence only.
 
 ## Repository boundaries
 
@@ -94,7 +98,9 @@ points, and removal of catalogue-only commands. The worker's musical rules and
 validation thresholds remain unchanged. Source-path fingerprints necessarily
 change, so old cached recognition is not assumed equivalent without validation.
 
-## Cutover verification — 2026-10-21
+## Historical cutover verification — 2026-10-21
+
+This records the service move before the subsequent single-pipeline change.
 
 - 22 focused service/configuration tests passed on both macOS and Linux.
 - All 38 migrated jobs retained their state. Downloaded source PDFs and ready

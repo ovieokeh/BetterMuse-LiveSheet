@@ -49,14 +49,13 @@ retains finished uploads for seven days, unless deleted sooner.
 curl -X POST http://127.0.0.1:3176/jobs \
   -H 'Content-Type: application/pdf' \
   -H 'X-Filename: Example.pdf' \
-  -H 'X-Preparation-Profile: experimental-v1' \
   --data-binary @example.pdf
 ```
 
-Poll `/jobs/<id>` until `ready`, `failed`, or `cancelled`. The profile header is
-explicit: `standard` preserves the basic path; `experimental-v1` enables the
-source-backed repair path used in the reviewed examples. Neither profile bypasses
-validation. User correction is not included.
+Poll `/jobs/<id>` until `ready`, `failed`, or `cancelled`. Every upload runs the
+source-backed repair pipeline used in the reviewed examples. There is no mode
+switch. Repair/export validation failures fail the job; earlier intermediate
+output is never silently delivered instead. User correction is not included.
 
 See [API and output contract](docs/api.md), [architecture](docs/architecture.md),
 and [verification](docs/verification.md).

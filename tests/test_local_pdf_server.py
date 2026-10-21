@@ -36,13 +36,28 @@ class LocalPDFServerTests(unittest.TestCase):
         self.assertEqual(self.request('/jobs', 'POST', data, {**headers, 'X-Preparation-Profile': 'unknown'})[0], 400)
         self.store.update(ident, state='failed')
         self.assertEqual(self.store.action(ident, 'retry')['profile'], 'experimental-v1')
-        self.assertEqual(self.upload()['profile'], 'standard')
+        self.assertEqual(self.upload()['profile'], 'experimental-v1')
         folder = self.store.root / ident
         (folder / 'quality.json').write_text('{}')
         self.assertEqual(self.request(f'/jobs/{ident}/files/quality.json')[0], 404)
         self.store.update(ident, state='ready')
         self.assertEqual(self.request(f'/jobs/{ident}/files/quality.json')[0], 200)
         self.assertEqual(self.request(f'/jobs/{ident}/files/baseline-score.json')[0], 404)
+
+    def test_legacy_jobs_resume_without_reprocessing_and_retry_uses_current_pipeline(self):
+        data = pdf_bytes()
+        headers = {'Content-Type': 'application/pdf', 'Idempotency-Key': 'legacy-job'}
+        job = json.loads(self.request('/jobs', 'POST', data, headers)[1])
+        ident = job['id']
+        self.store.update(ident, state='ready', profile='standard')
+        resumed = json.loads(self.request('/jobs', 'POST', data, headers)[1])
+        self.assertEqual(resumed['id'], ident)
+        self.assertEqual(resumed['state'], 'ready')
+        self.assertEqual(resumed['profile'], 'standard')
+        self.store.update(ident, state='failed')
+        retried = self.store.action(ident, 'retry')
+        self.assertEqual(retried['profile'], 'experimental-v1')
+        self.assertEqual(retried['state'], 'queued')
 
     def test_live_status_has_elapsed_time_and_current_stage(self):
         job = self.upload()

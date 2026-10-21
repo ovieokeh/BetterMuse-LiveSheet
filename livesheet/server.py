@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Local PDF jobs with an opt-in private device listener. No public hosting."""
+from livesheet.pdf_pipeline.config import PREPARATION_PROFILE
+
 import argparse
 from datetime import datetime, timezone
 import fcntl
@@ -247,17 +249,17 @@ class Jobs:
         ):
             raise ValueError("storage_low")
 
-    def submit(self, data, filename, owner=None, key=None, profile="standard"):
-        if profile not in {"standard", "experimental-v1"}:
+    def submit(self, data, filename, owner=None, key=None, profile=None):
+        if profile not in {None, PREPARATION_PROFILE}:
             raise ValueError("invalid_preparation_profile")
         if not self.submitting.acquire(blocking=False):
             raise ValueError("upload_busy")
         try:
-            return self._submit(data, filename, owner, key, profile)
+            return self._submit(data, filename, owner, key)
         finally:
             self.submitting.release()
 
-    def _submit(self, data, filename, owner, key, profile):
+    def _submit(self, data, filename, owner, key):
         digest = hashlib.sha256(data).hexdigest()
         with self.lock:
             if key:
@@ -268,7 +270,6 @@ class Jobs:
                     ):
                         if (
                             existing.get("sourceSHA256") != digest
-                            or existing.get("profile", "standard") != profile
                         ):
                             raise ValueError("idempotency_conflict")
                         return self.public(existing)
@@ -292,7 +293,7 @@ class Jobs:
                     owner=owner,
                     idempotencyKey=key,
                     sourceSHA256=digest,
-                    profile=profile,
+                    profile=PREPARATION_PROFILE,
                 )
                 atomic_json(folder / "job.json", job)
                 folder.rename(self.root / ident)
@@ -312,7 +313,7 @@ class Jobs:
                 (self.root / ident / "result.json").unlink(missing_ok=True)
                 (self.root / ident / "completion.json").unlink(missing_ok=True)
                 (self.root / ident / "failure.json").unlink(missing_ok=True)
-                return self.update(ident, state="queued", error=None)
+                return self.update(ident, state="queued", error=None, profile=PREPARATION_PROFILE)
             if self.active == ident:
                 terminate(self.process)
             if action == "delete":
@@ -346,7 +347,7 @@ class Jobs:
                 folder = self.root / ident
                 (folder / "completion.json").unlink(missing_ok=True)
                 (folder / "failure.json").unlink(missing_ok=True)
-                self.update(ident, state="running", error=None, startedAt=now())
+                self.update(ident, state="running", error=None, startedAt=now(), profile=PREPARATION_PROFILE)
                 self.active = ident
                 log = (folder / "worker.log").open("a")
                 try:
@@ -356,8 +357,6 @@ class Jobs:
                             "-m", "livesheet.worker",
                             "--job-dir",
                             str(folder),
-                            "--profile",
-                            job.get("profile", "standard"),
                             "--audiveris",
                             str(self.audiveris),
                             "--musescore",
@@ -503,7 +502,7 @@ class Handler(BaseHTTPRequestHandler):
                         maxBytes=MAX_BYTES,
                         maxPages=20,
                         retentionDays=7,
-                        preparationProfiles=["standard", "experimental-v1"],
+                        preparationProfiles=[PREPARATION_PROFILE],
                     ),
                 )
             if parts == ["jobs"]:
@@ -546,7 +545,7 @@ class Handler(BaseHTTPRequestHandler):
                             unquote(self.headers.get("X-Filename", "Score.pdf")),
                             self.owner,
                             key,
-                            self.headers.get("X-Preparation-Profile", "standard"),
+                            self.headers.get("X-Preparation-Profile"),
                         ),
                     )
             if len(parts) >= 2 and parts[0] == "jobs" and JOB_ID.fullmatch(parts[1]):

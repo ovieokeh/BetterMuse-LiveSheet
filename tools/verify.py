@@ -140,8 +140,6 @@ def verify(args, image):
                             "worker",
                             "--job-dir",
                             "/data/" + ident,
-                            "--profile",
-                            "experimental-v1",
                         ],
                         stdout=log,
                         stderr=subprocess.STDOUT,
