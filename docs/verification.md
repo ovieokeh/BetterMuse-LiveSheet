@@ -9,7 +9,7 @@ python3 tools/test.py
 ```
 
 The tests import the installed package inside the image. They do not mount the
-LiveSheet or BetterMuse source tree. The clean suite discovers 240 tests; 38 need
+LiveSheet or BetterMuse source tree. The clean suite discovers 249 tests; 38 need
 private regression excerpts and are explicitly skipped when absent.
 
 For the complete local set, supply the private excerpts in `tests/data/pdf-quality`
@@ -35,10 +35,23 @@ measure timing and playback order.
 The manifest includes 33 generated PDFs: 30 original cases across three font/layout
 variants, plus three corrected-meter cases. Where available, the separate printed
 reference removes hidden numeric dynamic overrides while retaining visible marks.
-Original reference bytes are preserved. Six original-reference discrepancies
-remain known from before extraction; these are reported separately, never called
-perfect recognition. The extraction gate requires unchanged baseline playback and
-passing printed-reference comparisons.
+Original reference bytes are preserved. Source MusicXML is checked for consistent
+bar lengths before recognition. The three malformed original meter cases are
+explicit diagnostics, not successful playback references. The positive set is
+30 generated PDFs, including all three corrected-meter cases. Three optional
+reviewed PDFs bring the positive total to 33.
+
+`tests/corpus/reference-diagnostics.json` records the original source hashes,
+exact defects and valid replacements. Any new invalid reference, changed defect,
+or invalid replacement blocks the run. The Petaluma diagnostic must fail with
+the overfull-measure guard and no completed delivery. An unrelated failure does
+not pass. The other two originals retain their historical comparisons as
+diagnostic checks only. Neither counts toward playback accuracy.
+
+Original-reference discrepancies are still reported separately, never called
+perfect recognition. Positive cases require unchanged baseline playback and
+passing printed-reference comparisons. Diagnostics must meet their separately
+reported expectations before the overall gate passes.
 
 Three optional private reviewed PDFs add exact event checks for Bella's Lullaby,
 Peaceful Sleep and Cuddy's Serenade. These are development regression examples,
@@ -78,30 +91,38 @@ filesystem, bounded CPU/memory/process counts and writable test storage only.
 See `extraction-verification.json` for this checkpoint's results and tested image.
 Detailed logs and private review evidence remain in ignored `artifacts/`.
 
-## Single-pipeline migration: exposed repair failure
+## Single-pipeline migration: corrected diagnosis
 
-Removing the delivery fallback exposed `meter-ties--petaluma-wide` from the
-included generated corpus. Its candidate introduces a newly overfull measure.
-The unchanged guard rejects it with `repair-introduced-overfull-measure`.
-Previously, the worker returned the validated initial export and called the job
-ready. It now reports `repair_validation_failed` and writes no completion marker.
+On 2026-10-21, removing delivery fallback exposed a rejected candidate for
+`meter-ties--petaluma-wide`. This was initially described as an unresolved repair
+bug. Inspection on 2026-10-22 showed that diagnosis was incorrect.
 
-This is an unresolved repair defect, not a newly accepted test outcome. Keep the
-case in the normal benchmark and keep its expected references unchanged. The full
-benchmark must remain red until the repair defect is fixed. Investigate the
-candidate's meter/voice accounting against the printed reference before changing
-any repair rule. Do not restore delivery fallback or weaken the overfull check.
+The frozen original source and printed PDF put four quarter-note beats and a
+whole bass note in bar 3, while the preceding 3/4 signature is still in force.
+Audiveris omitted the time signatures. Restoring the printed meter makes the
+inconsistency detectable. The overfull-measure guard correctly rejects this
+candidate; the old fallback hid the inconsistency by returning the initial
+export with missing meter information.
 
-Evidence: `artifacts/single-pipeline-verification/jobs/meter-ties--petaluma-wide/`
-contains the source, intermediate candidate, quality report and failure record.
-There are also unit regressions requiring repair/export rejection to raise and
-leave no deliverable completion marker.
+A corrected fixture family already existed as `meter-ties-v2`, with the missing
+4/4 change explicitly printed in bar 3. All three corrected font/layout variants
+pass. The original source files, PDFs, answers and hash manifest remain frozen.
+No production rule, validation threshold or fallback changed in this follow-up.
+
+The original Petaluma case now checks the specific safe rejection. The benchmark
+also verifies reference validity independently, before comparing recognition.
+This is a correction to the test setup and its diagnosis, not a new claim that
+the malformed original has become playable.
+
+Evidence: `artifacts/single-pipeline-verification/report.json` and its
+`jobs/meter-ties--petaluma-wide/` folder contain the current classification,
+intermediate candidates and rejection record.
 
 ### Migration verification result — 2026-10-21
 
 - 240 Linux tests passed with zero skips, including rejection and legacy-job retry checks.
-- 35 of 36 end-to-end score checks passed. The single exposed repair failure above
-  remains unresolved and keeps the full benchmark red.
+- The original run reported 35 of 36 checks passing. The apparent repair failure
+  was subsequently traced to the malformed test source, as explained above.
 - Bella's Lullaby, Peaceful Sleep and Cuddy's Serenade matched their reviewed
   musical events exactly. Generated/reference expectations were not changed.
 - Fresh website and authenticated native uploads omitted preparation headers.
@@ -115,3 +136,14 @@ leave no deliverable completion marker.
 Evidence: `artifacts/single-pipeline-clients.json`,
 `artifacts/single-pipeline-verification/report.json`, and
 `artifacts/single-pipeline-linux-tests.log`. All work remains local.
+
+### Reference-validity follow-up — 2026-10-22
+
+- 249 Linux tests passed with zero skips, including nine new reference checks.
+- All 33 positive cases passed revalidation against the unchanged runtime image.
+  Existing successful bundles were reused only after identity and integrity checks.
+- Three malformed-source diagnostics remain explicitly separate from that count.
+  The rejected Petaluma case was rerun and produced the exact expected validation
+  failure, with no completion marker. The two historical comparisons also passed.
+- Bella's Lullaby, Peaceful Sleep and Cuddy's Serenade still matched every reviewed
+  event. No source/reference answer was edited and no runtime changes were needed.

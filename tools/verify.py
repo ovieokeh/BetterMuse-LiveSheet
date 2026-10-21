@@ -17,6 +17,7 @@ import uuid
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from livesheet.testing.pdf_performance_reference import compare, read_midi
 from livesheet.pdf_pipeline.artifacts import verify_result
+from livesheet.testing.pdf_reference_validation import classify_references, verification_summary, diagnostic_outcome
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -99,15 +100,20 @@ def verify(args, image):
     storage = out / "jobs"
     storage.mkdir(parents=True, exist_ok=True)
     cases = []
+    references = {}
     for corpus in [ROOT / "tests/corpus"] + (
         [args.private.resolve()] if args.private else []
     ):
-        for entry in load(corpus / "manifest.json")["entries"]:
+        entries = load(corpus / "manifest.json")["entries"]
+        for entry in entries:
             folder = corpus / entry["id"]
             for name, digest in entry["hashes"].items():
                 if sha(folder / name) != digest:
                     raise ValueError("Reference changed: " + str(folder / name))
             cases.append((entry, folder))
+        if set(references) & {e["id"] for e in entries}:
+            raise ValueError("Duplicate reference IDs")
+        references.update(classify_references(entries, corpus))
     if args.ids:
         assert set(args.ids) <= {e["id"] for e, f in cases}, "Unknown case"
         cases = [(e, f) for e, f in cases if e["id"] in args.ids]
@@ -128,7 +134,7 @@ def verify(args, image):
                 verify_result(job)
             except Exception:
                 reusable = False
-        row = dict(id=ident, image=image, reused=reusable)
+        row = dict(id=ident, image=image, reused=reusable, reference=references[ident])
         try:
             if not reusable:
                 shutil.copy2(folder / "score.pdf", job / "source.pdf")
@@ -176,14 +182,21 @@ def verify(args, image):
             )
         except Exception as error:
             row.update(passed=False, error=str(error))
+        if row["reference"]["kind"] == "invalid-source-diagnostic":
+            row["diagnosticComparisonPassed"] = row.pop("passed")
+            row["diagnosticCheckPassed"] = diagnostic_outcome(
+                row["reference"], row["diagnosticComparisonPassed"], job
+            )
+            row["passed"] = None
         row["seconds"] = round(time.monotonic() - started, 2)
         rows.append(row)
         save(out / "report.json", report)
-        print(ident, row["passed"], row.get("error", ""), flush=True)
+        status = (f"diagnostic check: {row['diagnosticCheckPassed']}"
+                  if row["passed"] is None else row["passed"])
+        print(ident, status, row.get("error", ""), flush=True)
     report.update(
         complete=True,
-        passed=all(r["passed"] for r in rows),
-        counts=dict(Counter("passed" if r["passed"] else "failed" for r in rows)),
+        **verification_summary(rows),
     )
     save(out / "report.json", report)
     return 0 if report["passed"] else 1

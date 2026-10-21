@@ -1,0 +1,41 @@
+{
+  "meter-ties--leland": {
+    "sourceSHA256": "f7850774de358db622fb5809998d0ee3e340d583e7b65224b4773362df65d01e",
+    "issues": [
+      {
+        "part": 1,
+        "measure": 3,
+        "beats": "4",
+        "budget": "3"
+      }
+    ],
+    "replacement": "meter-ties-v2--leland",
+    "expectedOutcome": "historical-comparison"
+  },
+  "meter-ties--petaluma-wide": {
+    "sourceSHA256": "f7850774de358db622fb5809998d0ee3e340d583e7b65224b4773362df65d01e",
+    "issues": [
+      {
+        "part": 1,
+        "measure": 3,
+        "beats": "4",
+        "budget": "3"
+      }
+    ],
+    "replacement": "meter-ties-v2--petaluma-wide",
+    "expectedOutcome": "overfull-rejection"
+  },
+  "meter-ties--bravura-compact": {
+    "sourceSHA256": "79b6b3654e1ae2555d90104ba6738d5763adc97c406ff95099a4cef7decc383c",
+    "issues": [
+      {
+        "part": 1,
+        "measure": 3,
+        "beats": "4",
+        "budget": "3"
+      }
+    ],
+    "replacement": "meter-ties-v2--bravura-compact",
+    "expectedOutcome": "historical-comparison"
+  }
+}
