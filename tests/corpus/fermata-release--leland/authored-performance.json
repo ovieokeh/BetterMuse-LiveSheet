@@ -1,0 +1,114 @@
+{
+  "notes": [
+    {
+      "midi": 72,
+      "beat": 0.0,
+      "endBeat": 1.0,
+      "staff": 1,
+      "start": 0,
+      "nominalDuration": 0.6
+    },
+    {
+      "midi": 74,
+      "beat": 1.0,
+      "endBeat": 2.0,
+      "staff": 1,
+      "start": 0.6,
+      "nominalDuration": 1.1999999999999997
+    },
+    {
+      "midi": 76,
+      "beat": 2.0,
+      "endBeat": 3.0,
+      "staff": 1,
+      "start": 1.7999999999999998,
+      "nominalDuration": 0.6000000000000001
+    },
+    {
+      "midi": 77,
+      "beat": 3.0,
+      "endBeat": 4.0,
+      "staff": 1,
+      "start": 2.4,
+      "nominalDuration": 0.6000000000000001
+    },
+    {
+      "midi": 48,
+      "beat": 0.0,
+      "endBeat": 4.0,
+      "staff": 2,
+      "start": 0,
+      "nominalDuration": 3.0
+    },
+    {
+      "midi": 79,
+      "beat": 4.0,
+      "endBeat": 5.0,
+      "staff": 1,
+      "start": 3.0,
+      "nominalDuration": 0.5999999999999996
+    },
+    {
+      "midi": 77,
+      "beat": 5.0,
+      "endBeat": 6.0,
+      "staff": 1,
+      "start": 3.5999999999999996,
+      "nominalDuration": 0.6000000000000005
+    },
+    {
+      "midi": 76,
+      "beat": 6.0,
+      "endBeat": 7.0,
+      "staff": 1,
+      "start": 4.2,
+      "nominalDuration": 0.5999999999999996
+    },
+    {
+      "midi": 72,
+      "beat": 7.0,
+      "endBeat": 8.0,
+      "staff": 1,
+      "start": 4.8,
+      "nominalDuration": 0.5999999999999996
+    },
+    {
+      "midi": 48,
+      "beat": 4.0,
+      "endBeat": 8.0,
+      "staff": 2,
+      "start": 3.0,
+      "nominalDuration": 2.3999999999999995
+    }
+  ],
+  "measures": [
+    {
+      "id": "m0",
+      "beat": 0.0,
+      "start": 0
+    },
+    {
+      "id": "m1",
+      "beat": 4.0,
+      "start": 3.0
+    }
+  ],
+  "tempos": [
+    {
+      "beat": 0.0,
+      "bpm": 100.0
+    },
+    {
+      "beat": 1.0,
+      "bpm": 50.0
+    },
+    {
+      "beat": 2.0,
+      "bpm": 100.0
+    },
+    {
+      "beat": 4.0,
+      "bpm": 100.0
+    }
+  ]
+}

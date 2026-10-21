@@ -1,0 +1,118 @@
+{
+  "date": "2026-10-21",
+  "scope": "Local repository extraction; no musical rule changes, publication, or deployment",
+  "finalImage": "sha256:05cbe688a254c3c37c744cea04f0e95a62a13397f171386a18e4708ea98d8db7",
+  "runtimeEquivalence": {
+    "testImage": "sha256:f3b68f8d5c333b3327fec3fd6114268efa8b2ee7612e68c1f8f720937a9eef87",
+    "finalImage": "sha256:05cbe688a254c3c37c744cea04f0e95a62a13397f171386a18e4708ea98d8db7",
+    "sameRuntimeLayers": true,
+    "sameRuntimeConfiguration": true,
+    "documentationOnlyAdditions": [
+      "Correct Petaluma font attribution",
+      "Standalone commands in vendored patch README"
+    ],
+    "runtimeLayers": [
+      "sha256:32ab39660fd51c6dc3aae486b42d42bbe8fe4c1db78eaf57bb9c21198de48a16",
+      "sha256:a68c82ef065bc2166eddab7c83de2a3c4f6f1636def3bd37820dda31263e1fd1",
+      "sha256:6791cc9e8b197bd537987bf69aa1421873e062548cda9d504a8d642b637eb539",
+      "sha256:3ff5b99ab8751240a4c4a3a5b41af39be2428ea50f6103984596fb66e948bcca",
+      "sha256:94c9f52efc0a3d8ffda5a62be79482841487df0a1d3a7ef9f6532012827c0e42",
+      "sha256:9a47d56d66f43a4b7eff87b97efb6ca86311b0ffcfaf1da018c991a379f7e61d",
+      "sha256:dc298e82a6c67a59ffe263c4eb9644911cbade2010c7c541264a247ec6118699",
+      "sha256:fa389fb84d9cd1008dc6655b87a3632859aed823358c7b21450f8aa15e4bbc70",
+      "sha256:851d8014f815fa18f9ec2fdca469ebf878f8293b1af3e94b43bc4d9c3bebe77f",
+      "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+      "sha256:be946462164caf60d06d4b32d72e1a6e656bdfeb5731c365bfc28b8cb2b276f0",
+      "sha256:b5cfdc6521cda7b13db92f757834a5e6429826e5974e4dfc276361204ada5f41",
+      "sha256:85a65a00c1deb653efd80cf9861091979b9e94680ac0f9afa1fc1e61550c0453",
+      "sha256:68da14ecb2363bd96609d6b64003d5d615b59130d5e312409905e7573693bd7b"
+    ]
+  },
+  "unitTests": {
+    "macOS": {
+      "run": 235,
+      "passed": 235,
+      "skipped": 0
+    },
+    "linuxPrivate": {
+      "run": 235,
+      "passed": 235,
+      "skipped": 0
+    },
+    "linuxClean": {
+      "run": 235,
+      "passed": 197,
+      "skippedPrivateFixtures": 38
+    }
+  },
+  "playback": {
+    "cases": 36,
+    "baselinePassed": 36,
+    "printedReferencePassed": 24,
+    "originalReferenceMismatches": [
+      "articulation-dynamics--leland",
+      "meter-ties--leland",
+      "articulation-dynamics--petaluma-wide",
+      "meter-ties--petaluma-wide",
+      "articulation-dynamics--bravura-compact",
+      "meter-ties--bravura-compact"
+    ],
+    "privateReviewed": {
+      "bella": {
+        "exactEvents": true,
+        "notes": 418
+      },
+      "peaceful-sleep": {
+        "exactEvents": true,
+        "notes": 771
+      },
+      "cuddy": {
+        "exactEvents": true,
+        "notes": 422
+      }
+    }
+  },
+  "mutations": {
+    "detected": 8,
+    "total": 8
+  },
+  "service": {
+    "job": "40e42a084d23496089dee351ff3f5568",
+    "ready": true,
+    "cancelledAndRetried": true,
+    "recoveredAfterRestart": true,
+    "downloadsVerified": true,
+    "notes": 18
+  },
+  "compose": {
+    "job": "998e83fd8336440fb0bc67d9ab27625f",
+    "ready": true,
+    "notes": 18,
+    "sourceVerified": true,
+    "companionVerified": true,
+    "base": "http://127.0.0.1:3186"
+  },
+  "cleanCheckout": {
+    "bootstrap": "All four assets downloaded afresh and hash-verified",
+    "image": "sha256:394117914e32f651f564b92e426e8e6669e900bf6f0a3c8a51c81f647bd6cc07",
+    "smokePassed": true,
+    "privateFixturesIncluded": false
+  },
+  "evidenceHashes": {
+    "artifacts/verification/combined-report.json": "076c40bfd3435ec3035632d80beece597084f52a696126147d1300796385b45d",
+    "artifacts/final-private/report.json": "4b37639253b18b63fb471a590df6a72310d5ebf7eca5be6dcad47c34909631f6",
+    "artifacts/mutation-check/mutations/report.json": "27ef6eec4dc9d3988c12cdadc923575689db9b3c3b8b429c0c8bfb58b34aad65",
+    "artifacts/runtime-equivalence.json": "a4906a4fe82a60560ceb47b6a03261eb61e7c9c01116d091407d17f8d5f6a5a5"
+  },
+  "infrastructureNotes": [
+    "Storage guard stopped some runs after the clean build. Obsolete verification image and task build cache were removed; failed cases were rerun with the same limits.",
+    "Two final runs lost their old image reference during a documentation-only retag. They passed on retry. The runner now pins the image for its entire run.",
+    "Final image adds only documentation over the tested runtime layers; runtime configuration is identical."
+  ],
+  "limits": [
+    "Existing six original-reference discrepancies remain visible; this is regression evidence, not universal recognition accuracy.",
+    "Existing website and device service remains separate; no client cutover performed.",
+    "Linux AMD64 image; ARM hosts use emulation.",
+    "No public hosting/authentication rollout."
+  ]
+}

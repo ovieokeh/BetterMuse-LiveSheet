@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bettermuse-livesheet"
+version = "0.1.0"
+description = "PDF music recognition and validated playback preparation"
+requires-python = ">=3.11"
+license = "AGPL-3.0-or-later"
+dependencies = ["PyMuPDF==1.26.7", "pillow==13.0.0", "mido==1.3.3", "packaging==26.3"]
+
+[project.scripts]
+livesheet-serve = "livesheet.server:main"
+livesheet-prepare = "livesheet.worker:main"
+
+[tool.setuptools.packages.find]
+include = ["livesheet*"]
+
+[tool.setuptools.package-data]
+livesheet = ["vendor/audiveris/*.java", "vendor/audiveris/LICENSE", "vendor/audiveris/README.md"]

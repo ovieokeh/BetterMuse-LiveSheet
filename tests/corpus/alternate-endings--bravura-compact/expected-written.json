@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "parts": [
+    {
+      "id": "P1",
+      "measures": [
+        {
+          "index": 0,
+          "label": "1",
+          "implicit": false,
+          "extent": "4",
+          "notes": [
+            {
+              "staff": 1,
+              "midi": "72",
+              "onset": "0",
+              "duration": "2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "74",
+              "onset": "2",
+              "duration": "2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 2,
+              "midi": "48",
+              "onset": "0",
+              "duration": "4",
+              "grace": false,
+              "ties": [],
+              "voice": "2"
+            }
+          ],
+          "repeatMarks": [
+            {
+              "kind": "repeat",
+              "location": "left",
+              "direction": "forward"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "label": "2",
+          "implicit": false,
+          "extent": "4",
+          "notes": [
+            {
+              "staff": 1,
+              "midi": "76",
+              "onset": "0",
+              "duration": "4",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 2,
+              "midi": "55",
+              "onset": "0",
+              "duration": "4",
+              "grace": false,
+              "ties": [],
+              "voice": "2"
+            }
+          ],
+          "repeatMarks": [
+            {
+              "kind": "ending",
+              "location": "left",
+              "number": "1",
+              "type": "start"
+            },
+            {
+              "kind": "ending",
+              "location": "right",
+              "number": "1",
+              "type": "stop"
+            },
+            {
+              "kind": "repeat",
+              "location": "right",
+              "direction": "backward"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "label": "3",
+          "implicit": false,
+          "extent": "4",
+          "notes": [
+            {
+              "staff": 1,
+              "midi": "72",
+              "onset": "0",
+              "duration": "4",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 2,
+              "midi": "48",
+              "onset": "0",
+              "duration": "4",
+              "grace": false,
+              "ties": [],
+              "voice": "2"
+            }
+          ],
+          "repeatMarks": [
+            {
+              "kind": "ending",
+              "location": "left",
+              "number": "2",
+              "type": "start"
+            },
+            {
+              "kind": "ending",
+              "location": "right",
+              "number": "2",
+              "type": "discontinue"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "unsupported": []
+}

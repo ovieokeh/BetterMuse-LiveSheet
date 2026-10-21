@@ -1,0 +1,22 @@
+services:
+  livesheet:
+    image: bettermuse-livesheet:local
+    build:
+      context: .
+      target: runtime
+    platform: linux/amd64
+    user: "${LIVESHEET_UID:-1000}:${LIVESHEET_GID:-1000}"
+    init: true
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    cpus: 2
+    mem_limit: 4g
+    pids_limit: 512
+    stop_grace_period: 30s
+    ports:
+      - "127.0.0.1:${LIVESHEET_PORT:-3176}:3176"
+    volumes:
+      - ./data:/data
+    tmpfs:
+      - /tmp:rw,exec,nosuid,nodev,size=512m

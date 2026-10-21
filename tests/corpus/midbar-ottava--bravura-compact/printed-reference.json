@@ -1,0 +1,93 @@
+{
+  "notes": [
+    {
+      "midi": 48,
+      "start": 0.0,
+      "beat": 0.0,
+      "velocity": 80,
+      "duration": 2.27875
+    },
+    {
+      "midi": 72,
+      "start": 0.0,
+      "beat": 0.0,
+      "velocity": 80,
+      "duration": 0.56875
+    },
+    {
+      "midi": 74,
+      "start": 0.6,
+      "beat": 1.0,
+      "velocity": 80,
+      "duration": 0.56875
+    },
+    {
+      "midi": 88,
+      "start": 1.2,
+      "beat": 2.0,
+      "velocity": 80,
+      "duration": 0.5687499999999999
+    },
+    {
+      "midi": 89,
+      "start": 1.7999999999999998,
+      "beat": 3.0,
+      "velocity": 80,
+      "duration": 0.5687500000000001
+    },
+    {
+      "midi": 48,
+      "start": 2.4,
+      "beat": 4.0,
+      "velocity": 80,
+      "duration": 2.27875
+    },
+    {
+      "midi": 91,
+      "start": 2.4,
+      "beat": 4.0,
+      "velocity": 80,
+      "duration": 0.5687500000000001
+    },
+    {
+      "midi": 89,
+      "start": 3.0,
+      "beat": 5.0,
+      "velocity": 80,
+      "duration": 0.5687500000000001
+    },
+    {
+      "midi": 76,
+      "start": 3.6,
+      "beat": 6.0,
+      "velocity": 80,
+      "duration": 0.5687500000000001
+    },
+    {
+      "midi": 72,
+      "start": 4.2,
+      "beat": 7.0,
+      "velocity": 80,
+      "duration": 0.5687499999999996
+    }
+  ],
+  "tempos": [
+    {
+      "beat": 0.0,
+      "seconds": 0.0,
+      "bpm": 100.0
+    }
+  ],
+  "pedal": [],
+  "duration": 4.77,
+  "measures": [
+    {
+      "id": "m0",
+      "start": 0.0
+    },
+    {
+      "id": "m1",
+      "start": 2.4
+    }
+  ]
+}

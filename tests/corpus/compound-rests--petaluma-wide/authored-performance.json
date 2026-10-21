@@ -1,0 +1,98 @@
+{
+  "notes": [
+    {
+      "midi": 72,
+      "beat": 0.0,
+      "endBeat": 1.5,
+      "staff": 1,
+      "start": 0,
+      "nominalDuration": 0.8333333333333334
+    },
+    {
+      "midi": 76,
+      "beat": 2.0,
+      "endBeat": 3.0,
+      "staff": 1,
+      "start": 1.1111111111111112,
+      "nominalDuration": 0.5555555555555556
+    },
+    {
+      "midi": 48,
+      "beat": 0.0,
+      "endBeat": 3.0,
+      "staff": 2,
+      "start": 0,
+      "nominalDuration": 1.6666666666666667
+    },
+    {
+      "midi": 55,
+      "beat": 0.0,
+      "endBeat": 3.0,
+      "staff": 2,
+      "start": 0,
+      "nominalDuration": 1.6666666666666667
+    },
+    {
+      "midi": 74,
+      "beat": 3.0,
+      "endBeat": 3.5,
+      "staff": 1,
+      "start": 1.6666666666666667,
+      "nominalDuration": 0.2777777777777779
+    },
+    {
+      "midi": 76,
+      "beat": 3.5,
+      "endBeat": 4.5,
+      "staff": 1,
+      "start": 1.9444444444444446,
+      "nominalDuration": 0.5555555555555554
+    },
+    {
+      "midi": 79,
+      "beat": 4.5,
+      "endBeat": 6.0,
+      "staff": 1,
+      "start": 2.5,
+      "nominalDuration": 0.8333333333333335
+    },
+    {
+      "midi": 43,
+      "beat": 3.0,
+      "endBeat": 6.0,
+      "staff": 2,
+      "start": 1.6666666666666667,
+      "nominalDuration": 1.6666666666666667
+    },
+    {
+      "midi": 50,
+      "beat": 3.0,
+      "endBeat": 6.0,
+      "staff": 2,
+      "start": 1.6666666666666667,
+      "nominalDuration": 1.6666666666666667
+    }
+  ],
+  "measures": [
+    {
+      "id": "m0",
+      "beat": 0.0,
+      "start": 0
+    },
+    {
+      "id": "m1",
+      "beat": 3.0,
+      "start": 1.6666666666666667
+    }
+  ],
+  "tempos": [
+    {
+      "beat": 0.0,
+      "bpm": 108.0
+    },
+    {
+      "beat": 3.0,
+      "bpm": 108.0
+    }
+  ]
+}

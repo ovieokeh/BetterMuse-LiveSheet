@@ -1,0 +1,17 @@
+*
+!Dockerfile
+!pyproject.toml
+!LICENSE
+!livesheet/
+!livesheet/**
+!tests/
+!tests/**
+tests/data/
+!downloads/
+!downloads/**
+!.build/
+!.build/support/
+!.build/support/**
+!THIRD_PARTY_NOTICES.md
+!tools/
+!tools/**

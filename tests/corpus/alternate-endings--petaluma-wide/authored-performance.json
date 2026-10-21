@@ -1,0 +1,124 @@
+{
+  "notes": [
+    {
+      "midi": 72,
+      "beat": 0.0,
+      "endBeat": 2.0,
+      "staff": 1,
+      "start": 0,
+      "nominalDuration": 1.1111111111111112
+    },
+    {
+      "midi": 74,
+      "beat": 2.0,
+      "endBeat": 4.0,
+      "staff": 1,
+      "start": 1.1111111111111112,
+      "nominalDuration": 1.1111111111111112
+    },
+    {
+      "midi": 48,
+      "beat": 0.0,
+      "endBeat": 4.0,
+      "staff": 2,
+      "start": 0,
+      "nominalDuration": 2.2222222222222223
+    },
+    {
+      "midi": 76,
+      "beat": 4.0,
+      "endBeat": 8.0,
+      "staff": 1,
+      "start": 2.2222222222222223,
+      "nominalDuration": 2.2222222222222223
+    },
+    {
+      "midi": 55,
+      "beat": 4.0,
+      "endBeat": 8.0,
+      "staff": 2,
+      "start": 2.2222222222222223,
+      "nominalDuration": 2.2222222222222223
+    },
+    {
+      "midi": 72,
+      "beat": 8.0,
+      "endBeat": 10.0,
+      "staff": 1,
+      "start": 4.444444444444445,
+      "nominalDuration": 1.1111111111111107
+    },
+    {
+      "midi": 74,
+      "beat": 10.0,
+      "endBeat": 12.0,
+      "staff": 1,
+      "start": 5.555555555555555,
+      "nominalDuration": 1.1111111111111116
+    },
+    {
+      "midi": 48,
+      "beat": 8.0,
+      "endBeat": 12.0,
+      "staff": 2,
+      "start": 4.444444444444445,
+      "nominalDuration": 2.2222222222222223
+    },
+    {
+      "midi": 72,
+      "beat": 12.0,
+      "endBeat": 16.0,
+      "staff": 1,
+      "start": 6.666666666666667,
+      "nominalDuration": 2.2222222222222223
+    },
+    {
+      "midi": 48,
+      "beat": 12.0,
+      "endBeat": 16.0,
+      "staff": 2,
+      "start": 6.666666666666667,
+      "nominalDuration": 2.2222222222222223
+    }
+  ],
+  "measures": [
+    {
+      "id": "m0",
+      "beat": 0.0,
+      "start": 0
+    },
+    {
+      "id": "m1",
+      "beat": 4.0,
+      "start": 2.2222222222222223
+    },
+    {
+      "id": "m0",
+      "beat": 8.0,
+      "start": 4.444444444444445
+    },
+    {
+      "id": "m2",
+      "beat": 12.0,
+      "start": 6.666666666666667
+    }
+  ],
+  "tempos": [
+    {
+      "beat": 0.0,
+      "bpm": 108.0
+    },
+    {
+      "beat": 4.0,
+      "bpm": 108.0
+    },
+    {
+      "beat": 8.0,
+      "bpm": 108.0
+    },
+    {
+      "beat": 12.0,
+      "bpm": 108.0
+    }
+  ]
+}

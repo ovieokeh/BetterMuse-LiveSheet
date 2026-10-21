@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "parts": [
+    {
+      "id": "P1",
+      "measures": [
+        {
+          "index": 0,
+          "label": "1",
+          "implicit": false,
+          "extent": "4",
+          "notes": [
+            {
+              "staff": 1,
+              "midi": "72",
+              "onset": "0",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "76",
+              "onset": "1/2",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "79",
+              "onset": "1",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "76",
+              "onset": "3/2",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "74",
+              "onset": "2",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "77",
+              "onset": "5/2",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "81",
+              "onset": "3",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "77",
+              "onset": "7/2",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 2,
+              "midi": "48",
+              "onset": "0",
+              "duration": "4",
+              "grace": false,
+              "ties": [],
+              "voice": "2"
+            }
+          ],
+          "repeatMarks": []
+        },
+        {
+          "index": 1,
+          "label": "2",
+          "implicit": false,
+          "extent": "4",
+          "notes": [
+            {
+              "staff": 1,
+              "midi": "71",
+              "onset": "0",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "74",
+              "onset": "1/2",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "79",
+              "onset": "1",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "74",
+              "onset": "3/2",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "72",
+              "onset": "2",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "76",
+              "onset": "5/2",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "79",
+              "onset": "3",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 1,
+              "midi": "76",
+              "onset": "7/2",
+              "duration": "1/2",
+              "grace": false,
+              "ties": [],
+              "voice": "1"
+            },
+            {
+              "staff": 2,
+              "midi": "48",
+              "onset": "0",
+              "duration": "4",
+              "grace": false,
+              "ties": [],
+              "voice": "2"
+            }
+          ],
+          "repeatMarks": []
+        }
+      ]
+    }
+  ],
+  "unsupported": []
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<score>
+  <elements>
+    <element id="0" x="16598.6" y="25370.1" sx="75361.4" sy="15618.9" page="0">
+      </element>
+    <element id="1" x="91959.9" y="25370.1" sx="67872.3" sy="15618.9" page="0">
+      </element>
+    </elements>
+  <events>
+    <event elid="0" position="0">
+      </event>
+    <event elid="1" position="2667">
+      </event>
+    </events>
+  </score>

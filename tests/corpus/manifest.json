@@ -1,0 +1,558 @@
+{
+  "schemaVersion": 1,
+  "source": "Frozen BetterMuse generated performance corpus; original reference bytes retained",
+  "entries": [
+    {
+      "id": "opening-tempo--leland",
+      "family": "opening-tempo",
+      "hashes": {
+        "source.musicxml": "5ac58eabaed0e1c4854292046462ffbdbd4b6ecf0f675983bf045ffbdc62c3f7",
+        "score.pdf": "16a9e751f9c532ee9047ccd87b8efb990c451d0ba18923ce7e58f772015946aa",
+        "score.mxl": "9fd18eeca0c00b7a923264f7497a59b2cc3cb2feebdeca1488bef3200b5080a5",
+        "score.mid": "512232c80d3b6b40a66d8c6231c663699dd2b236fd7500454f98b2680d056720",
+        "score.mpos": "e35a28de45dff55ed4775060a658d7f53bcd964c0c4ba31767f8e67823f0eb98",
+        "expected-written.json": "ebc38923260c0f739c066ca763a3f5e5d4e35d4baf82e377e29e8d1453413858",
+        "authored-performance.json": "c1eb217a5ff0851b9474486886cbd6538f5c6a72e4d4148a274a009b6a35c1ad",
+        "reference-performance.json": "e87e2a00fdb84e3db59f930bf7ea93bf6ce6d35361efc5d74dd31450318bf18d",
+        "reference-check.json": "1339fdd57b8537d29ea166860e6f160c0b4b55146f7f08509994c3a0bcb8dd10",
+        "baseline.json": "aa3fac66ae811743665176dca2856d2541f018d5a44948ff778ed678ec2545e4",
+        "printed-reference.json": "e87e2a00fdb84e3db59f930bf7ea93bf6ce6d35361efc5d74dd31450318bf18d"
+      }
+    },
+    {
+      "id": "midbar-tempo--leland",
+      "family": "midbar-tempo",
+      "hashes": {
+        "source.musicxml": "9111e7243b37801b136b1ac1a256b156f2b11536af78dc54fcac79607ac7627e",
+        "score.pdf": "f6f4689276097099f9faf287f0867b416456cef53b8ec976892f4a36c246f5d4",
+        "score.mxl": "7456ff3bc58fd0576e1a55f553306347c7043fe19ea9e0a6d1574d4149fc9013",
+        "score.mid": "05724a1147a51349fc1451300dc03134ded47c5b74443c1ae8fe95dd65f8c677",
+        "score.mpos": "2aca70d461629dca106f1cd2f6910ab394ed5fb84da2f3361fd5d112d65f7efa",
+        "expected-written.json": "489bfd276ebe5c77826ce286cafc5b8b653ca4b9f21eaaf2a10c6008b9ee338c",
+        "authored-performance.json": "1e3217e9119351a24c8e515b1203ed073c3ee6af149e1a0bcfdf018920a38a81",
+        "reference-performance.json": "fe8b269f74380f6dd1f29199352b80bd60c6b6831040668c0382b6bbb7b6ccee",
+        "reference-check.json": "6828637833ccde5403f54f61e5e95e873c0a25ae7c12a7c07213ed93010b6454",
+        "baseline.json": "9954dd6fb5da5f93c822f7ae3a8fafc7e8f95b5ed08739dfd7afc8e6aad17246",
+        "printed-reference.json": "fe8b269f74380f6dd1f29199352b80bd60c6b6831040668c0382b6bbb7b6ccee"
+      }
+    },
+    {
+      "id": "tied-chords--leland",
+      "family": "tied-chords",
+      "hashes": {
+        "source.musicxml": "dd88298f172df213c96e308f4f1be99d47844b4d54a775b202ef9d8836b99875",
+        "score.pdf": "cc4d5b25fd05553cd88c0d24d84625b98a7e058f639d945a28d644c0e093e5e6",
+        "score.mxl": "6fb9d8257caf8ed048d13c0b2f0d7066ab88254062a90c18c7c261c909cf23d7",
+        "score.mid": "e01411c50c6dbec56c86c4c21b080779c1016c82dfb714e6178f4b084a87d5e6",
+        "score.mpos": "2aca70d461629dca106f1cd2f6910ab394ed5fb84da2f3361fd5d112d65f7efa",
+        "expected-written.json": "39b10f65d8bd26863c9bbd7bcabea0b08e2f000ea9a6d0c886da5f7d9c201c20",
+        "authored-performance.json": "03240815723ecee9f18eea6efb0bce0492460f2611194519785aebd7b348e768",
+        "reference-performance.json": "a231b2566f77b9abeb84cd146e99195ca1efc8eba8689c8f9d5c01720c5afc86",
+        "reference-check.json": "944301d9cd01430b71f6f62812760f2b587a9d6d37085e0dd90c0651f8654bad",
+        "baseline.json": "6463c9487ac0edc2a7cc4706ad6f0add12a92b37777f02b97a74efb5e55ea613",
+        "printed-reference.json": "a231b2566f77b9abeb84cd146e99195ca1efc8eba8689c8f9d5c01720c5afc86"
+      }
+    },
+    {
+      "id": "alternate-endings--leland",
+      "family": "alternate-endings",
+      "hashes": {
+        "source.musicxml": "d9a213c55de2740ef2073554a32a0b8782f1ea0f755ffd64bf27c6273b201085",
+        "score.pdf": "9c3ad63420d59ff450308c65d7a1d0ff964abf578f5ce65c735571dbc9938345",
+        "score.mxl": "1c64871529f68de356330692bca985949b0af094d085cf85bee4f7c3b36d63ce",
+        "score.mid": "c05d2db92649f37089ee62360ed7b856c856c72c5f06fe8f0590c9095d75e928",
+        "score.mpos": "4c37ba6a20934f5403943364dc60a3fd9d5065a4cb1f72386d20579fa69980f1",
+        "expected-written.json": "daf190a36c2cb37d3636a8c458c879a53ff4d96720bbc74347b8e3d0c5e05214",
+        "authored-performance.json": "047c743a693517410ee963626a72c1051dfbab8c9c3bd05a9fb1ee5993308676",
+        "reference-performance.json": "6fbe71f08356c37df6904d122a7d3d4f19d02724bec07858eaedd775f6a5063d",
+        "reference-check.json": "3955ebb6d6ab1830d5881a74c194e776461726c41a7260eae91cf7a652518b06",
+        "baseline.json": "492bd56380f8ebecf69d79b0422597ccfa9d738a9facc240ce1c23871f4ecb2c",
+        "printed-reference.json": "6fbe71f08356c37df6904d122a7d3d4f19d02724bec07858eaedd775f6a5063d"
+      }
+    },
+    {
+      "id": "articulation-dynamics--leland",
+      "family": "articulation-dynamics",
+      "hashes": {
+        "source.musicxml": "29ec2a52dad8aa98c9b2dfcf96e3a6300026e5e3d33aae22c10d2b197838377e",
+        "score.pdf": "f5480a61d8e1782db8147736501dd0fbef70fc2a96dd2c91c093f641765955e4",
+        "score.mxl": "c68bea86d5fe900199c6ec2afae11e31b778dac126127284726501e4e8a640e3",
+        "score.mid": "922d7b0bc09c3041c4858480f867d5b629c034d659b9e387d26c304135b06305",
+        "score.mpos": "ade51ac66828ba2a7efd659135b995a9648856b593eb43c6f043016362a01078",
+        "expected-written.json": "bdb7e3a5eac6a4c03ea7fe4f6fc6661c0b11255155f2e3e157cd6772a60044ea",
+        "authored-performance.json": "1a59bbe1599d723895faaca0755d938a6ab38fdfe2a28fd9bcdcbdbfee7572ae",
+        "reference-performance.json": "4f2784bced46fe189d6c69ff644e09dde7ef137881af773206f13bdc785a4a49",
+        "reference-check.json": "6828637833ccde5403f54f61e5e95e873c0a25ae7c12a7c07213ed93010b6454",
+        "baseline.json": "567a65b1cb07fd6e07a4bee2d6b037ea0007d6072c1f12991b8b6e2cad0f6bdc",
+        "printed-reference.json": "a8f7daef3410c8a852b5e1bd1156f74d46f5d400a043a6d3adb7feb7dd8b63bb"
+      }
+    },
+    {
+      "id": "pedal-release--leland",
+      "family": "pedal-release",
+      "hashes": {
+        "source.musicxml": "e4cff6cf9974719c8b738b7cd2cfe56b177c5aa18587a9a3098cc9fa2cd4a331",
+        "score.pdf": "5734d7a831c5490be709c325c2789ac37a9e94edee480791ec79523a50edba7c",
+        "score.mxl": "37b9144d2327d6a604fbabbbebfae66b9be8c42bcda6605b6f6e53cd8bffb0d1",
+        "score.mid": "fa3403c48d867cf9c02db182ed86b394fe3c2a161f4b7a6edc51f55e61dc39e7",
+        "score.mpos": "d6af9ae0591f69173bfa6a7b75124d2cd93eaec1e0c1d7eaf7f05fd4fab8fdb5",
+        "expected-written.json": "2e3f239df3ababe1fccc3f229a5d97d98840a8f68ce30d77a4a632eb58abbf76",
+        "authored-performance.json": "91754076a73ad9adb24c96fa937ad529602a30f6b5b23e173248e790170510c7",
+        "reference-performance.json": "6e9b82d5e240a1260b54d87080452dd0d35fb40fcc913d7c74eef85a5332d0ba",
+        "reference-check.json": "6828637833ccde5403f54f61e5e95e873c0a25ae7c12a7c07213ed93010b6454",
+        "baseline.json": "9cc841cd3d8485ea5e88373dc025418ecb881cc9d3134c6b3a2a324346846e91",
+        "printed-reference.json": "6e9b82d5e240a1260b54d87080452dd0d35fb40fcc913d7c74eef85a5332d0ba"
+      }
+    },
+    {
+      "id": "fermata-release--leland",
+      "family": "fermata-release",
+      "hashes": {
+        "source.musicxml": "cd414f0a187399accffde4f816c04ab3333481bd8ef8e7c21047bae674ebebdd",
+        "score.pdf": "fd51b394a03fddbef8c2230aef589eea66ae2d24193eb0668d511b5109a1271a",
+        "score.mxl": "add98ea1584b0998d92be92a9741ee84abfa2cab278db17ccde54daf4c2fe10b",
+        "score.mid": "23b1535ea0e523151d97c5aa67782659e268eafce9b8eeae0d3fb31a52ea6136",
+        "score.mpos": "7fbeb4530f0b1ea9caf846a50fc89a34419aed33b0284a84ee670e6a2802c682",
+        "expected-written.json": "489bfd276ebe5c77826ce286cafc5b8b653ca4b9f21eaaf2a10c6008b9ee338c",
+        "authored-performance.json": "1e4b56fda1a77653470f82a514286b371f82b6eb3edc76f11f0f7fa7ba823012",
+        "reference-performance.json": "6ac78b22c473e683006917fe7be1d3f80fcc9c5c9a348d78b9c06e347aab0119",
+        "reference-check.json": "6828637833ccde5403f54f61e5e95e873c0a25ae7c12a7c07213ed93010b6454",
+        "baseline.json": "37a3c6c74ebb339bb2e634842d3bfc57884fc9a13e2dd9f759cc567760ebcc4e",
+        "printed-reference.json": "6ac78b22c473e683006917fe7be1d3f80fcc9c5c9a348d78b9c06e347aab0119"
+      }
+    },
+    {
+      "id": "midbar-ottava--leland",
+      "family": "midbar-ottava",
+      "hashes": {
+        "source.musicxml": "d0b506e11e3d1f48ef9a8f42bcabcd821ec9b33b37fe6cac1af4f6ead1320b8e",
+        "score.pdf": "bfcd574f345e53339539df39fbe7fc986dea0590148f483e608eba35c660351b",
+        "score.mxl": "4c27ea03ffa3ffb47237af368aa806cc48ffb5d9fa6bcd2c6b79f178952033e2",
+        "score.mid": "662af4a9972a24550b8c3fd55505ecac222d2322ab4fabcf57fd0ead00018694",
+        "score.mpos": "e35a28de45dff55ed4775060a658d7f53bcd964c0c4ba31767f8e67823f0eb98",
+        "expected-written.json": "cac1ed5019bf7ae51c5c8ddc554d0156bf6f5cd785625dba1bbcb52acfd04ec7",
+        "authored-performance.json": "43d359d538c01eff80c546ec8ea32e8956575c792de22b1aafbca1fd0128da95",
+        "reference-performance.json": "ff07324ecedc341e5b28ae3d999fa814a004d0e420aadef2eaa77c60431f64fd",
+        "reference-check.json": "6828637833ccde5403f54f61e5e95e873c0a25ae7c12a7c07213ed93010b6454",
+        "baseline.json": "7e7cbcb2dd2df23487ba5daaff7732dc0f2bbd497f9f8015bac4597212781580",
+        "printed-reference.json": "ff07324ecedc341e5b28ae3d999fa814a004d0e420aadef2eaa77c60431f64fd"
+      }
+    },
+    {
+      "id": "compound-rests--leland",
+      "family": "compound-rests",
+      "hashes": {
+        "source.musicxml": "6e1640e78688e027446692b24c43ba63149718a0b9f2205b2a82acde0dec7d2a",
+        "score.pdf": "5ac942bcba4610b00c5ef182fa98ae296f41efe8fa66691bce23f171670a6c97",
+        "score.mxl": "4483afaa2983b818d6d4c4a2b8f106f58507a5952641ab3f124e00e1125a69f5",
+        "score.mid": "384d0b237bd00999a9aa6d4b20f1e9cfe53858069f4792d1c119fafdfed72dd0",
+        "score.mpos": "25bcb10831cb5cf3ed99784634101ea818b79768eeaea27ebfc7b2e749836721",
+        "expected-written.json": "9fdd4fdb78d0ab929f5debf8a3898016cc542c47ebb93a5550965747bcd12c84",
+        "authored-performance.json": "fe1424e5b3d917614089433436903e698ee5ddaf8f52b65eb89a23c5e349e94a",
+        "reference-performance.json": "153a4e17a0400a7b6af7c0092623606f5daf6dc39d08a04cf769dc6521a09e74",
+        "reference-check.json": "6b98042e22ce650575aafd8a1097ef22a76cadda7daf7018debf585a15616051",
+        "baseline.json": "f78aa552fc6c4be6f0ffc203363c4dfb6d42a6678fa06aee56e6890f9b557de0"
+      }
+    },
+    {
+      "id": "meter-ties--leland",
+      "family": "meter-ties",
+      "hashes": {
+        "source.musicxml": "f7850774de358db622fb5809998d0ee3e340d583e7b65224b4773362df65d01e",
+        "score.pdf": "990eba25bcb97ab73117901562399b205df37def18febe8e447f2b724cfdb04f",
+        "score.mxl": "9b051eb9044be4e0333571cbfa30f00424c0d8dd2ec2e385f49e02bd19309b74",
+        "score.mid": "f8b94b2aeac2d7eb725e9e31cffd660fbd35e023aa167a7f6dd176a4c57b79c5",
+        "score.mpos": "607b23d231314a86023e02989885392debee4c4c2c8558afda891759ede66b0b",
+        "expected-written.json": "d387ccb55f121c14f9d7135fd6cbd594c809ef2a0bf3fa7b9af6614be58e5b9a",
+        "authored-performance.json": "3dca3b263e8f15f4c6bbf5d80e0f792360de46772d6e7525fa61ef01234deadd",
+        "reference-performance.json": "b2cdb78cbd92dc4f930b32a0f0cfa72af3a0c0ecd07cc5f0e31c726f937486cb",
+        "reference-check.json": "9b2a8ccd7e14c416159b2fe5a09c9f89a6ed9250fe9b63830e7b060bcb9c1d6b",
+        "baseline.json": "350ec20529dfc63503899fea98872756ff61f15d87ae1f7c55322610a1d4b5cc"
+      }
+    },
+    {
+      "id": "opening-tempo--petaluma-wide",
+      "family": "opening-tempo",
+      "hashes": {
+        "source.musicxml": "5ac58eabaed0e1c4854292046462ffbdbd4b6ecf0f675983bf045ffbdc62c3f7",
+        "score.pdf": "58f70077ab80a4ac2d5aa72a7aa6437741e310449523bcbc2209e69259d8dd82",
+        "score.mxl": "683cab415ce2947894bc02aab0fefefbbbd65abbe3c6bf2bae8d0848336b1e01",
+        "score.mid": "512232c80d3b6b40a66d8c6231c663699dd2b236fd7500454f98b2680d056720",
+        "score.mpos": "e7bb389d47d11d3fa7aec40e292d667fc5832568456d858e456996490a45ec66",
+        "expected-written.json": "ebc38923260c0f739c066ca763a3f5e5d4e35d4baf82e377e29e8d1453413858",
+        "authored-performance.json": "c1eb217a5ff0851b9474486886cbd6538f5c6a72e4d4148a274a009b6a35c1ad",
+        "reference-performance.json": "e87e2a00fdb84e3db59f930bf7ea93bf6ce6d35361efc5d74dd31450318bf18d",
+        "reference-check.json": "211fb841bfe2085b20960c752591ac424b0b08e40e2f2eef6824a6a7abc170ff",
+        "baseline.json": "674b8da5e06dd3ed5818e22c2270f5e8f75270d05fcc91300cf50c23dab5813d",
+        "printed-reference.json": "e87e2a00fdb84e3db59f930bf7ea93bf6ce6d35361efc5d74dd31450318bf18d"
+      }
+    },
+    {
+      "id": "midbar-tempo--petaluma-wide",
+      "family": "midbar-tempo",
+      "hashes": {
+        "source.musicxml": "9111e7243b37801b136b1ac1a256b156f2b11536af78dc54fcac79607ac7627e",
+        "score.pdf": "2cfe90efed2957f6b87dc2c4f00075bca240f8f7fbcfd5381b806672871a252c",
+        "score.mxl": "85015d6002ed2e392b69926a8488d0754a5cfa15ef68565087b1f7340515bc19",
+        "score.mid": "05724a1147a51349fc1451300dc03134ded47c5b74443c1ae8fe95dd65f8c677",
+        "score.mpos": "66f8ef6d8b7dc526694f4b9eeae5c5f9efda8f1e78d837861dfad36b23ed88d0",
+        "expected-written.json": "489bfd276ebe5c77826ce286cafc5b8b653ca4b9f21eaaf2a10c6008b9ee338c",
+        "authored-performance.json": "1e3217e9119351a24c8e515b1203ed073c3ee6af149e1a0bcfdf018920a38a81",
+        "reference-performance.json": "fe8b269f74380f6dd1f29199352b80bd60c6b6831040668c0382b6bbb7b6ccee",
+        "reference-check.json": "eefd719cb6f5debf9cce3f7ee9855f5e2a43303ca10720571025f0b0a099e024",
+        "baseline.json": "9eeb99c33805c145f6c9000a65e378b132ee52d9071e30a03161ce0955b8a4b5",
+        "printed-reference.json": "fe8b269f74380f6dd1f29199352b80bd60c6b6831040668c0382b6bbb7b6ccee"
+      }
+    },
+    {
+      "id": "tied-chords--petaluma-wide",
+      "family": "tied-chords",
+      "hashes": {
+        "source.musicxml": "dd88298f172df213c96e308f4f1be99d47844b4d54a775b202ef9d8836b99875",
+        "score.pdf": "6754b9c4e3696a7350cab8f4571eead9710d413329661f3035240af50826248d",
+        "score.mxl": "4a15b3f37c0b1d15fe2f6bae72bcf4e2db11338b5ce57d1a4aaeebf8e09d42d8",
+        "score.mid": "e01411c50c6dbec56c86c4c21b080779c1016c82dfb714e6178f4b084a87d5e6",
+        "score.mpos": "f716b2f203562a846b808a24fb8d0fcebea910879039a3f60c3ef6b67fdc4236",
+        "expected-written.json": "39b10f65d8bd26863c9bbd7bcabea0b08e2f000ea9a6d0c886da5f7d9c201c20",
+        "authored-performance.json": "03240815723ecee9f18eea6efb0bce0492460f2611194519785aebd7b348e768",
+        "reference-performance.json": "a231b2566f77b9abeb84cd146e99195ca1efc8eba8689c8f9d5c01720c5afc86",
+        "reference-check.json": "67df7f543147cd3139f903e0ae0ab7a4a50a176f7cb45922db3fddede7c1f788",
+        "baseline.json": "ad97228a467b3e6817021794f4ff7435d70d9f58dfa4865c60ebe5b52c62c36f",
+        "printed-reference.json": "a231b2566f77b9abeb84cd146e99195ca1efc8eba8689c8f9d5c01720c5afc86"
+      }
+    },
+    {
+      "id": "alternate-endings--petaluma-wide",
+      "family": "alternate-endings",
+      "hashes": {
+        "source.musicxml": "d9a213c55de2740ef2073554a32a0b8782f1ea0f755ffd64bf27c6273b201085",
+        "score.pdf": "6209a8d52c4a25f389ed59738240f826aad784d5ffb1d4b47096a88fa70a85d5",
+        "score.mxl": "dcae1ae29630274df22b33549478caf6c036f5d7224ce98bcdbb868c1cf24c4d",
+        "score.mid": "c05d2db92649f37089ee62360ed7b856c856c72c5f06fe8f0590c9095d75e928",
+        "score.mpos": "2d53595474786501860c25fca166d493b1b15ccb63f1285fcb9193ad1277b025",
+        "expected-written.json": "daf190a36c2cb37d3636a8c458c879a53ff4d96720bbc74347b8e3d0c5e05214",
+        "authored-performance.json": "047c743a693517410ee963626a72c1051dfbab8c9c3bd05a9fb1ee5993308676",
+        "reference-performance.json": "6fbe71f08356c37df6904d122a7d3d4f19d02724bec07858eaedd775f6a5063d",
+        "reference-check.json": "b1fa9c7e48c9d8a9bc01278a7b3bea968b937239759bcb4d041eb1d7fd5f6ecd",
+        "baseline.json": "073dc919f0d609a2621d29985dfb60323dbd7ae8f34c14ffa5b21a0c38eaf9e4",
+        "printed-reference.json": "6fbe71f08356c37df6904d122a7d3d4f19d02724bec07858eaedd775f6a5063d"
+      }
+    },
+    {
+      "id": "articulation-dynamics--petaluma-wide",
+      "family": "articulation-dynamics",
+      "hashes": {
+        "source.musicxml": "29ec2a52dad8aa98c9b2dfcf96e3a6300026e5e3d33aae22c10d2b197838377e",
+        "score.pdf": "76aaf2a9420d5e3600d4ed0825113020f84a558ae163d4199e6609d341038692",
+        "score.mxl": "76bdcd1cbc6a865b1c8036210a06f672c4300e39f33ad7302d03d12b470e1eca",
+        "score.mid": "922d7b0bc09c3041c4858480f867d5b629c034d659b9e387d26c304135b06305",
+        "score.mpos": "0ff9d8434cd9f2e33516968ec405af9d351248bec18dd936f3b9ae2f9889fe1c",
+        "expected-written.json": "bdb7e3a5eac6a4c03ea7fe4f6fc6661c0b11255155f2e3e157cd6772a60044ea",
+        "authored-performance.json": "1a59bbe1599d723895faaca0755d938a6ab38fdfe2a28fd9bcdcbdbfee7572ae",
+        "reference-performance.json": "4f2784bced46fe189d6c69ff644e09dde7ef137881af773206f13bdc785a4a49",
+        "reference-check.json": "eefd719cb6f5debf9cce3f7ee9855f5e2a43303ca10720571025f0b0a099e024",
+        "baseline.json": "ec533a9470d42cb41f50a8b58414e5347d52b5bc418c21daabd635eb5d9d1c33",
+        "printed-reference.json": "a8f7daef3410c8a852b5e1bd1156f74d46f5d400a043a6d3adb7feb7dd8b63bb"
+      }
+    },
+    {
+      "id": "pedal-release--petaluma-wide",
+      "family": "pedal-release",
+      "hashes": {
+        "source.musicxml": "e4cff6cf9974719c8b738b7cd2cfe56b177c5aa18587a9a3098cc9fa2cd4a331",
+        "score.pdf": "c646bea11d14304b30e666a0e9ddfd5302ec76569488da48944cabafa137d82c",
+        "score.mxl": "9f4db1d4071aa15eb8c31b09a5ff3ae8f614f219d146c71aa9772b732b2289fe",
+        "score.mid": "fa3403c48d867cf9c02db182ed86b394fe3c2a161f4b7a6edc51f55e61dc39e7",
+        "score.mpos": "bb235d54182da72bc2408955956b4cf1efed8896ccdac3f8a59f771625f00eec",
+        "expected-written.json": "2e3f239df3ababe1fccc3f229a5d97d98840a8f68ce30d77a4a632eb58abbf76",
+        "authored-performance.json": "91754076a73ad9adb24c96fa937ad529602a30f6b5b23e173248e790170510c7",
+        "reference-performance.json": "6e9b82d5e240a1260b54d87080452dd0d35fb40fcc913d7c74eef85a5332d0ba",
+        "reference-check.json": "eefd719cb6f5debf9cce3f7ee9855f5e2a43303ca10720571025f0b0a099e024",
+        "baseline.json": "ab8ffab1a4456d6af1fbff8778c3aae0895badc1bfdebb400ac5db32b4d3a7f6",
+        "printed-reference.json": "6e9b82d5e240a1260b54d87080452dd0d35fb40fcc913d7c74eef85a5332d0ba"
+      }
+    },
+    {
+      "id": "fermata-release--petaluma-wide",
+      "family": "fermata-release",
+      "hashes": {
+        "source.musicxml": "cd414f0a187399accffde4f816c04ab3333481bd8ef8e7c21047bae674ebebdd",
+        "score.pdf": "e017ad955add01341137f3c23d7889b113f5dd1324fdfd9cf8843396a58f39c1",
+        "score.mxl": "f63fd120f020660598b077470b82cc1fb732925612b876f4eeca11baf31ba303",
+        "score.mid": "23b1535ea0e523151d97c5aa67782659e268eafce9b8eeae0d3fb31a52ea6136",
+        "score.mpos": "891813f42f324e5ccbf8e76d5f92d1cd22ee59f2164af675af444f904bd1e05e",
+        "expected-written.json": "489bfd276ebe5c77826ce286cafc5b8b653ca4b9f21eaaf2a10c6008b9ee338c",
+        "authored-performance.json": "1e4b56fda1a77653470f82a514286b371f82b6eb3edc76f11f0f7fa7ba823012",
+        "reference-performance.json": "6ac78b22c473e683006917fe7be1d3f80fcc9c5c9a348d78b9c06e347aab0119",
+        "reference-check.json": "eefd719cb6f5debf9cce3f7ee9855f5e2a43303ca10720571025f0b0a099e024",
+        "baseline.json": "f7da49d900e1d12c22e4b18f63c40ab85054f91cbb3cd2296a2ad9c7c3a61e62",
+        "printed-reference.json": "6ac78b22c473e683006917fe7be1d3f80fcc9c5c9a348d78b9c06e347aab0119"
+      }
+    },
+    {
+      "id": "midbar-ottava--petaluma-wide",
+      "family": "midbar-ottava",
+      "hashes": {
+        "source.musicxml": "d0b506e11e3d1f48ef9a8f42bcabcd821ec9b33b37fe6cac1af4f6ead1320b8e",
+        "score.pdf": "0eb10caf7890194147721729b03c9b8df54a677f62d098d38110f501d28d97a4",
+        "score.mxl": "48041d4981f0ac8be6342449252dec074a677ce19c1129a05e57348f9437a390",
+        "score.mid": "662af4a9972a24550b8c3fd55505ecac222d2322ab4fabcf57fd0ead00018694",
+        "score.mpos": "e7bb389d47d11d3fa7aec40e292d667fc5832568456d858e456996490a45ec66",
+        "expected-written.json": "cac1ed5019bf7ae51c5c8ddc554d0156bf6f5cd785625dba1bbcb52acfd04ec7",
+        "authored-performance.json": "43d359d538c01eff80c546ec8ea32e8956575c792de22b1aafbca1fd0128da95",
+        "reference-performance.json": "ff07324ecedc341e5b28ae3d999fa814a004d0e420aadef2eaa77c60431f64fd",
+        "reference-check.json": "eefd719cb6f5debf9cce3f7ee9855f5e2a43303ca10720571025f0b0a099e024",
+        "baseline.json": "f9ea7afab735720851472bbd1e4e1e13c4e3aac9b7e933013aa781e3fdc83a15",
+        "printed-reference.json": "ff07324ecedc341e5b28ae3d999fa814a004d0e420aadef2eaa77c60431f64fd"
+      }
+    },
+    {
+      "id": "compound-rests--petaluma-wide",
+      "family": "compound-rests",
+      "hashes": {
+        "source.musicxml": "6e1640e78688e027446692b24c43ba63149718a0b9f2205b2a82acde0dec7d2a",
+        "score.pdf": "1d19d84cf18cf8e21dbf7a64d2eaa0968d5e4ec91ce7ba79ee9066a9acbad57f",
+        "score.mxl": "ebb6eb482e4aaf0488a3aaf3f4f18385a18942528503d7c526b51b031c07c82d",
+        "score.mid": "384d0b237bd00999a9aa6d4b20f1e9cfe53858069f4792d1c119fafdfed72dd0",
+        "score.mpos": "d58f5b7b2982bf6176849962cc97027f4d70a8af5d99f4a120c6fe399b0ca9fb",
+        "expected-written.json": "9fdd4fdb78d0ab929f5debf8a3898016cc542c47ebb93a5550965747bcd12c84",
+        "authored-performance.json": "fe1424e5b3d917614089433436903e698ee5ddaf8f52b65eb89a23c5e349e94a",
+        "reference-performance.json": "153a4e17a0400a7b6af7c0092623606f5daf6dc39d08a04cf769dc6521a09e74",
+        "reference-check.json": "7fc8528132f29d2735bb79196322cce2203306148a0c511359067b0e1c0e0d63",
+        "baseline.json": "48c193b87bcd60af6010a393d7e221837d6c72f451415f644e4946f3f0578679"
+      }
+    },
+    {
+      "id": "meter-ties--petaluma-wide",
+      "family": "meter-ties",
+      "hashes": {
+        "source.musicxml": "f7850774de358db622fb5809998d0ee3e340d583e7b65224b4773362df65d01e",
+        "score.pdf": "687606febec6726d33e68348075dc5e0dd8b1340a9eb256b7f051e04d95d9876",
+        "score.mxl": "048e78dd475783f9dfb7ba19bbf9d3e96d7901f483368b189e3729ae8f0b64e2",
+        "score.mid": "f8b94b2aeac2d7eb725e9e31cffd660fbd35e023aa167a7f6dd176a4c57b79c5",
+        "score.mpos": "f719b04159da2c8416675693bfb3bc538a8d20ccd9b98c1fe5dd5430fb308865",
+        "expected-written.json": "d387ccb55f121c14f9d7135fd6cbd594c809ef2a0bf3fa7b9af6614be58e5b9a",
+        "authored-performance.json": "3dca3b263e8f15f4c6bbf5d80e0f792360de46772d6e7525fa61ef01234deadd",
+        "reference-performance.json": "b2cdb78cbd92dc4f930b32a0f0cfa72af3a0c0ecd07cc5f0e31c726f937486cb",
+        "reference-check.json": "e5e59252453340d5c5f20bfefcfb1c29f734cb7e91c6e2fa60bf9595874c1fc6",
+        "baseline.json": "c78c36382703545664083c9d45fd6989158e8ca966f98603469b25b474832c34"
+      }
+    },
+    {
+      "id": "opening-tempo--bravura-compact",
+      "family": "opening-tempo",
+      "hashes": {
+        "source.musicxml": "309b4166e5b371d88b591774de8aa8fbe9e55f78b9a1003759ae15457412a193",
+        "score.pdf": "696639f8d991ea8bebc907ac19f9da45d7378de77382d3a1005be184f5db2961",
+        "score.mxl": "637769dd2531ae110a987398eb90b0030d728dac8351ac85a086a332373b8785",
+        "score.mid": "512232c80d3b6b40a66d8c6231c663699dd2b236fd7500454f98b2680d056720",
+        "score.mpos": "226bf143744643c47aa11e1b887cd6882923a49c1844bce34d3420f603ca9a90",
+        "expected-written.json": "ebc38923260c0f739c066ca763a3f5e5d4e35d4baf82e377e29e8d1453413858",
+        "authored-performance.json": "c1eb217a5ff0851b9474486886cbd6538f5c6a72e4d4148a274a009b6a35c1ad",
+        "reference-performance.json": "e87e2a00fdb84e3db59f930bf7ea93bf6ce6d35361efc5d74dd31450318bf18d",
+        "reference-check.json": "23304f64624effbbbc7b4ff8ff89565f93b1b2d6847e9fb769d565d57b890165",
+        "baseline.json": "2b2f5f9a4954cf68f7129896d785af0c3ba52b88b13f86464950c865c85d0725",
+        "printed-reference.json": "e87e2a00fdb84e3db59f930bf7ea93bf6ce6d35361efc5d74dd31450318bf18d"
+      }
+    },
+    {
+      "id": "midbar-tempo--bravura-compact",
+      "family": "midbar-tempo",
+      "hashes": {
+        "source.musicxml": "1ff78eaabb30c0ea69745dae8685751edc887c58231a65658a0bcab1d82cd84a",
+        "score.pdf": "6ca3fc1ce2e4acdca48f7ff64c6c21120e332bfda20265b97fd09b5e5ec7eb01",
+        "score.mxl": "4468d574c61b6bf8aebf8528cc894973e320f967c5aed67d6a563246ff19b7d0",
+        "score.mid": "05724a1147a51349fc1451300dc03134ded47c5b74443c1ae8fe95dd65f8c677",
+        "score.mpos": "1f790d24afb6e2660b70aa3d3694a6d90ccc43fd4fe4294ce7d3c976dd5260a1",
+        "expected-written.json": "489bfd276ebe5c77826ce286cafc5b8b653ca4b9f21eaaf2a10c6008b9ee338c",
+        "authored-performance.json": "1e3217e9119351a24c8e515b1203ed073c3ee6af149e1a0bcfdf018920a38a81",
+        "reference-performance.json": "fe8b269f74380f6dd1f29199352b80bd60c6b6831040668c0382b6bbb7b6ccee",
+        "reference-check.json": "eb8c53b8a389f3309ae075b6269b79d0e2470b0aba26105b0e477173d24d51ea",
+        "baseline.json": "4762e7796ebd357842d04f2fa988aaad9cf3fa7c0469568b6cae6e6c6c8f4f41",
+        "printed-reference.json": "fe8b269f74380f6dd1f29199352b80bd60c6b6831040668c0382b6bbb7b6ccee"
+      }
+    },
+    {
+      "id": "tied-chords--bravura-compact",
+      "family": "tied-chords",
+      "hashes": {
+        "source.musicxml": "02e14934d4269c93577bda00a62097268d749779ca20b99f1c75ddc6ecb4aceb",
+        "score.pdf": "aee9fff85d2614a7af170b80b5c1e70247a38f9f8d9e23e932260e546796f7a3",
+        "score.mxl": "7349835ba09356b733f2eec30e9153a0a488ec12e74f6818e1b6d97fa6c3ffe7",
+        "score.mid": "e01411c50c6dbec56c86c4c21b080779c1016c82dfb714e6178f4b084a87d5e6",
+        "score.mpos": "fbf30449384070d9c0d07de14ec8ab93299f6483bac7658e4c198eeecdc56ab3",
+        "expected-written.json": "39b10f65d8bd26863c9bbd7bcabea0b08e2f000ea9a6d0c886da5f7d9c201c20",
+        "authored-performance.json": "03240815723ecee9f18eea6efb0bce0492460f2611194519785aebd7b348e768",
+        "reference-performance.json": "a231b2566f77b9abeb84cd146e99195ca1efc8eba8689c8f9d5c01720c5afc86",
+        "reference-check.json": "95cb38be5cdb7290901d5e5540b6851658456ef2f80b1a545a73e06d9d0231f0",
+        "baseline.json": "b739837aa45953ceaa783d0e0de98056b5daef026caceb3a920031d1184a4ba9",
+        "printed-reference.json": "a231b2566f77b9abeb84cd146e99195ca1efc8eba8689c8f9d5c01720c5afc86"
+      }
+    },
+    {
+      "id": "alternate-endings--bravura-compact",
+      "family": "alternate-endings",
+      "hashes": {
+        "source.musicxml": "ae3e618feec9d0103a50db7c72c54912cba2291a09a47b870d7c2de2d0dd46b5",
+        "score.pdf": "0c94c163d74394371e29cf2fb52668718e0244fafcf852ee46b8d4ab835b92b6",
+        "score.mxl": "b174e30b515433ec5fa4ed7f7d4533bcb96d1db9edc3ea213fff86a2c7df3fb5",
+        "score.mid": "c05d2db92649f37089ee62360ed7b856c856c72c5f06fe8f0590c9095d75e928",
+        "score.mpos": "8fdc4050f2b99807275590704c3b46d78f26f4beb1280e4795a8a55f07cc87ab",
+        "expected-written.json": "daf190a36c2cb37d3636a8c458c879a53ff4d96720bbc74347b8e3d0c5e05214",
+        "authored-performance.json": "047c743a693517410ee963626a72c1051dfbab8c9c3bd05a9fb1ee5993308676",
+        "reference-performance.json": "6fbe71f08356c37df6904d122a7d3d4f19d02724bec07858eaedd775f6a5063d",
+        "reference-check.json": "c412dab42948fb5f50a44e5def8f648d92d8822446ac21a39e58a08842b46318",
+        "baseline.json": "aea4bdea1e692bd664f7b4f7b36cc60cac672e0d16d041e7a0b3a4aefe723833",
+        "printed-reference.json": "6fbe71f08356c37df6904d122a7d3d4f19d02724bec07858eaedd775f6a5063d"
+      }
+    },
+    {
+      "id": "articulation-dynamics--bravura-compact",
+      "family": "articulation-dynamics",
+      "hashes": {
+        "source.musicxml": "a180c0cacb82b3369479ba784bb5e751ed3868cba061805f8b95a39d4474906f",
+        "score.pdf": "bf0b1aa1918433676722272d35fcb21fbfdbe6d635b77c98e69bf35b213f14f2",
+        "score.mxl": "3e09ea54bfdc46b10285c649c664d06efa7f5bbdd7016e40e80825c132567564",
+        "score.mid": "922d7b0bc09c3041c4858480f867d5b629c034d659b9e387d26c304135b06305",
+        "score.mpos": "e7dffef9b026a85687a82708fbfc619f689c96339617138214ad1ddd75e3ab39",
+        "expected-written.json": "bdb7e3a5eac6a4c03ea7fe4f6fc6661c0b11255155f2e3e157cd6772a60044ea",
+        "authored-performance.json": "1a59bbe1599d723895faaca0755d938a6ab38fdfe2a28fd9bcdcbdbfee7572ae",
+        "reference-performance.json": "4f2784bced46fe189d6c69ff644e09dde7ef137881af773206f13bdc785a4a49",
+        "reference-check.json": "eb8c53b8a389f3309ae075b6269b79d0e2470b0aba26105b0e477173d24d51ea",
+        "baseline.json": "57f426a0c9f8e2c356ea981800c57a441b49e9aaf3dc16fef2494bf5e94a261c",
+        "printed-reference.json": "a8f7daef3410c8a852b5e1bd1156f74d46f5d400a043a6d3adb7feb7dd8b63bb"
+      }
+    },
+    {
+      "id": "pedal-release--bravura-compact",
+      "family": "pedal-release",
+      "hashes": {
+        "source.musicxml": "2d9114aeeaf6143c28196e53c2a485a09c212c1792dfdf81151f109e1fecc5a3",
+        "score.pdf": "a828bab28e98ab913dc8740a473c344a74cc9a9a32aa8218d7da5f19a7126b4e",
+        "score.mxl": "a41ecace2459692508cb3f5a2e81096b35337f518d43b536be46df630cafee1d",
+        "score.mid": "fa3403c48d867cf9c02db182ed86b394fe3c2a161f4b7a6edc51f55e61dc39e7",
+        "score.mpos": "6bff7fc46e9277bbbc2cc7e365c98a93b0590dc6e44e686dcae842f6157580b4",
+        "expected-written.json": "2e3f239df3ababe1fccc3f229a5d97d98840a8f68ce30d77a4a632eb58abbf76",
+        "authored-performance.json": "91754076a73ad9adb24c96fa937ad529602a30f6b5b23e173248e790170510c7",
+        "reference-performance.json": "6e9b82d5e240a1260b54d87080452dd0d35fb40fcc913d7c74eef85a5332d0ba",
+        "reference-check.json": "eb8c53b8a389f3309ae075b6269b79d0e2470b0aba26105b0e477173d24d51ea",
+        "baseline.json": "c1529d3a016d14fab61ddecc47c6c06f756fe77f90ed370d67fa25a6ce45f8a6",
+        "printed-reference.json": "6e9b82d5e240a1260b54d87080452dd0d35fb40fcc913d7c74eef85a5332d0ba"
+      }
+    },
+    {
+      "id": "fermata-release--bravura-compact",
+      "family": "fermata-release",
+      "hashes": {
+        "source.musicxml": "67d5621ea912771776b16b2f74c184afbc07706fd1f84963dd80e747783aa5f0",
+        "score.pdf": "8667483f460c5ae247dca743f5370b73e0296af89c6a6d8cec56a62b16b905e6",
+        "score.mxl": "43cd6b30891a51f7f2cac149f4122183eedb829a43e8ecfe7d7b659e5ef73e5a",
+        "score.mid": "23b1535ea0e523151d97c5aa67782659e268eafce9b8eeae0d3fb31a52ea6136",
+        "score.mpos": "5f9cab8771c8bbbfa2872c466e428475f70bfb3188132078c8810df79520500c",
+        "expected-written.json": "489bfd276ebe5c77826ce286cafc5b8b653ca4b9f21eaaf2a10c6008b9ee338c",
+        "authored-performance.json": "1e4b56fda1a77653470f82a514286b371f82b6eb3edc76f11f0f7fa7ba823012",
+        "reference-performance.json": "6ac78b22c473e683006917fe7be1d3f80fcc9c5c9a348d78b9c06e347aab0119",
+        "reference-check.json": "eb8c53b8a389f3309ae075b6269b79d0e2470b0aba26105b0e477173d24d51ea",
+        "baseline.json": "27a1a3910660c03de508ef5769b142787ff254309611cff0105a7e6ed767b314",
+        "printed-reference.json": "6ac78b22c473e683006917fe7be1d3f80fcc9c5c9a348d78b9c06e347aab0119"
+      }
+    },
+    {
+      "id": "midbar-ottava--bravura-compact",
+      "family": "midbar-ottava",
+      "hashes": {
+        "source.musicxml": "0e33b6501e876542d3a7b13d0a9664b0a85d521089fae40e66b02d09892d308b",
+        "score.pdf": "7413fd3c83856c108555146bc7e7443334000f64cb681bf07b0b49dfd52f4c5a",
+        "score.mxl": "20261f770e63459f5131bdeb5e2bd54eb02b6b4e859f499f9098e660354e2565",
+        "score.mid": "662af4a9972a24550b8c3fd55505ecac222d2322ab4fabcf57fd0ead00018694",
+        "score.mpos": "77461f8efd182674a977a7f11c193b496461ba8781bfd6ff1df8882a567a4a74",
+        "expected-written.json": "cac1ed5019bf7ae51c5c8ddc554d0156bf6f5cd785625dba1bbcb52acfd04ec7",
+        "authored-performance.json": "43d359d538c01eff80c546ec8ea32e8956575c792de22b1aafbca1fd0128da95",
+        "reference-performance.json": "ff07324ecedc341e5b28ae3d999fa814a004d0e420aadef2eaa77c60431f64fd",
+        "reference-check.json": "eb8c53b8a389f3309ae075b6269b79d0e2470b0aba26105b0e477173d24d51ea",
+        "baseline.json": "b05079d374031b94535546a66845ccfc22db161beaae95a501a652ae648781e2",
+        "printed-reference.json": "ff07324ecedc341e5b28ae3d999fa814a004d0e420aadef2eaa77c60431f64fd"
+      }
+    },
+    {
+      "id": "compound-rests--bravura-compact",
+      "family": "compound-rests",
+      "hashes": {
+        "source.musicxml": "0afe64c64d53cf355d5f4efff03777ea2ee07c2f02523ca97c71c98aebb7859e",
+        "score.pdf": "c479c8b7fc085123b7619785e19bcae6fa54ed57237b7c65a0a2e62b7e6e4a45",
+        "score.mxl": "8bd3fb5ebba608aacbe66ef44e741b7c3ec4c7d80259a48ac258f78ab88255e8",
+        "score.mid": "384d0b237bd00999a9aa6d4b20f1e9cfe53858069f4792d1c119fafdfed72dd0",
+        "score.mpos": "40962b4926af9425bf95554caeab09fe5e1a8a50b304610ba0382d61df623a4b",
+        "expected-written.json": "9fdd4fdb78d0ab929f5debf8a3898016cc542c47ebb93a5550965747bcd12c84",
+        "authored-performance.json": "fe1424e5b3d917614089433436903e698ee5ddaf8f52b65eb89a23c5e349e94a",
+        "reference-performance.json": "153a4e17a0400a7b6af7c0092623606f5daf6dc39d08a04cf769dc6521a09e74",
+        "reference-check.json": "b2f0974a7813a02f2c2058b76b19bf29afbf91436b911882807cb3b25a8f7d79",
+        "baseline.json": "deeddda6ae8b90baab2566ae38966c5f3a87985665c31cff26bcd8148e0ac056"
+      }
+    },
+    {
+      "id": "meter-ties--bravura-compact",
+      "family": "meter-ties",
+      "hashes": {
+        "source.musicxml": "79b6b3654e1ae2555d90104ba6738d5763adc97c406ff95099a4cef7decc383c",
+        "score.pdf": "10be8a966a1a6dade292719a3b325e1d1067f8b6c0dccd32979e6866bac79883",
+        "score.mxl": "020ca1921e4e19d48e24df83eda0ba0086cabf63ef5c9fc8eb3072c6b1da83ff",
+        "score.mid": "f8b94b2aeac2d7eb725e9e31cffd660fbd35e023aa167a7f6dd176a4c57b79c5",
+        "score.mpos": "eb728f23c82872042b351096565b387b9ec663d7310367f1a81302f11ec1ff2b",
+        "expected-written.json": "d387ccb55f121c14f9d7135fd6cbd594c809ef2a0bf3fa7b9af6614be58e5b9a",
+        "authored-performance.json": "3dca3b263e8f15f4c6bbf5d80e0f792360de46772d6e7525fa61ef01234deadd",
+        "reference-performance.json": "b2cdb78cbd92dc4f930b32a0f0cfa72af3a0c0ecd07cc5f0e31c726f937486cb",
+        "reference-check.json": "edcf204ca41be232eb736705f62a0e1ca45d36fe6c3444a960aaa7c4957b4acc",
+        "baseline.json": "17ed9f5ad55f7d3c10777980422e4d07684c1f7ed9b627932f78654540027464"
+      }
+    },
+    {
+      "id": "meter-ties-v2--leland",
+      "family": "meter-ties-v2",
+      "hashes": {
+        "source.musicxml": "12917333c012887f07c57adc162faec7f2c31430443ab7ae64bed7085764cab0",
+        "score.pdf": "c86655158da58bcdf2bbd60b18ffb8c7d078c5bab4d2147ec5af4318ea707d3f",
+        "score.mxl": "08886e1b256d6d0b8048c36b2657f7ebbf128fc93e9084490e1e7d9c5d14e82d",
+        "score.mid": "f8b94b2aeac2d7eb725e9e31cffd660fbd35e023aa167a7f6dd176a4c57b79c5",
+        "score.mpos": "c3408e03723ed3b51633efca3e4b3ae740749d423bc51ea2f994bdbe991745d3",
+        "expected-written.json": "d387ccb55f121c14f9d7135fd6cbd594c809ef2a0bf3fa7b9af6614be58e5b9a",
+        "authored-performance.json": "3dca3b263e8f15f4c6bbf5d80e0f792360de46772d6e7525fa61ef01234deadd",
+        "reference-performance.json": "b2cdb78cbd92dc4f930b32a0f0cfa72af3a0c0ecd07cc5f0e31c726f937486cb",
+        "reference-check.json": "9b2a8ccd7e14c416159b2fe5a09c9f89a6ed9250fe9b63830e7b060bcb9c1d6b",
+        "baseline.json": "e247ab820d921df8b1ebb4c4519a77f1d37523cb4bab2430cfc75837c6e37e4e"
+      }
+    },
+    {
+      "id": "meter-ties-v2--bravura-compact",
+      "family": "meter-ties-v2",
+      "hashes": {
+        "source.musicxml": "cd6104fd6c6ec9e1670add545fd0d8fb79586b66c8ef00b914b1484ba8e9a433",
+        "score.pdf": "a1f6d755e6be974988f34bc17fa2070b4b68ca43791cfcba0cbf757e04136344",
+        "score.mxl": "7caecd76370adaa00f69d1acd90688a350d87b996dc30adc33ce208a143929e9",
+        "score.mid": "f8b94b2aeac2d7eb725e9e31cffd660fbd35e023aa167a7f6dd176a4c57b79c5",
+        "score.mpos": "f8d85aa77ff5b449d4301b41f20975ae065b4e92e7fee296402899eeaecb10dd",
+        "expected-written.json": "d387ccb55f121c14f9d7135fd6cbd594c809ef2a0bf3fa7b9af6614be58e5b9a",
+        "authored-performance.json": "3dca3b263e8f15f4c6bbf5d80e0f792360de46772d6e7525fa61ef01234deadd",
+        "reference-performance.json": "b2cdb78cbd92dc4f930b32a0f0cfa72af3a0c0ecd07cc5f0e31c726f937486cb",
+        "reference-check.json": "edcf204ca41be232eb736705f62a0e1ca45d36fe6c3444a960aaa7c4957b4acc",
+        "baseline.json": "4f9f4a622c3add6a8aae17ad5290e93e1a45a19691f6929ef21d6e2a847c0a21"
+      }
+    },
+    {
+      "id": "meter-ties-v2--petaluma-wide",
+      "family": "meter-ties-v2",
+      "hashes": {
+        "source.musicxml": "12917333c012887f07c57adc162faec7f2c31430443ab7ae64bed7085764cab0",
+        "score.pdf": "af0366c6e82d6d626b1ee6d16d8f52f9dd75ad7e28f2a1a56167f49cd92009fa",
+        "score.mxl": "36d01ac849dca64cc1537e1402246c28903d54ed8b4d4ef94cd55de7858afcec",
+        "score.mid": "f8b94b2aeac2d7eb725e9e31cffd660fbd35e023aa167a7f6dd176a4c57b79c5",
+        "score.mpos": "3b56a559913c1df85f146bab6486643688e37d9acb4c80c92bbe987b74fd0fe1",
+        "expected-written.json": "d387ccb55f121c14f9d7135fd6cbd594c809ef2a0bf3fa7b9af6614be58e5b9a",
+        "authored-performance.json": "3dca3b263e8f15f4c6bbf5d80e0f792360de46772d6e7525fa61ef01234deadd",
+        "reference-performance.json": "b2cdb78cbd92dc4f930b32a0f0cfa72af3a0c0ecd07cc5f0e31c726f937486cb",
+        "reference-check.json": "e5e59252453340d5c5f20bfefcfb1c29f734cb7e91c6e2fa60bf9595874c1fc6",
+        "baseline.json": "e3d084be8ad1717aecb9697338de6599f1bc2b12d63cc758a2856e98e84dfc1b"
+      }
+    }
+  ]
+}

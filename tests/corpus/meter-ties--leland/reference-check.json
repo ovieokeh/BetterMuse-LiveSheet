@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "written": {
+    "metrics": {
+      "exactWrittenEvents": {
+        "expected": 13,
+        "recognized": 13,
+        "matched": 13,
+        "missingOrChanged": 0,
+        "extraOrChanged": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "pitchAndOnset": {
+        "expected": 13,
+        "recognized": 13,
+        "matched": 13,
+        "missingOrChanged": 0,
+        "extraOrChanged": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      "rhythmIgnoringPitch": {
+        "expected": 13,
+        "recognized": 13,
+        "matched": 13,
+        "missingOrChanged": 0,
+        "extraOrChanged": 0,
+        "precision": 1.0,
+        "recall": 1.0
+      }
+    },
+    "exactWrittenMeasures": 3,
+    "expectedPartMeasures": 3,
+    "recognizedPartMeasures": 3,
+    "differences": [],
+    "scope": "Written pitched events; part and measure ordinal alignment. Voice labels ignored. Projection metrics overlap and do not identify unique error causes. Repeat marks and measure extents are separate diagnostics. No performed-order, expression, rest or geometry accuracy claim."
+  },
+  "performance": {
+    "passed": true,
+    "errors": [],
+    "expectedAttacks": 11,
+    "scope": "Independent authored pitches, attacks, visits, tie continuation and selected expression relationships"
+  },
+  "fonts": [
+    "Edwin-Bold",
+    "Edwin-Roman",
+    "Leland",
+    "LelandText"
+  ],
+  "fontPresent": true
+}

@@ -1,0 +1,222 @@
+{
+  "scripts/pdf_reference_validation.py": {
+    "sourceSHA256": "18a545bdbed242fbfe3991e00942f9a76793a0666346ef941f396fa23ff956c3",
+    "destination": "livesheet/testing/pdf_reference_validation.py",
+    "extractedSHA256": "18a545bdbed242fbfe3991e00942f9a76793a0666346ef941f396fa23ff956c3"
+  },
+  "scripts/pdf_simple_recovery.py": {
+    "sourceSHA256": "29a2cfc1a94908b49e01835edd07d9da22f88dde71a5212e86398f1f8b9b77a2",
+    "destination": "livesheet/pdf_simple_recovery.py",
+    "extractedSHA256": "7d2c10308bdbe62922f7cbcea209ac9fc468c4b2cf1e0cd7911013f4f157a6f2"
+  },
+  "scripts/pdf_experimental.py": {
+    "sourceSHA256": "70dbece7b89a30ca80f94453354603954a62f8742d1f3297b1821583601ab194",
+    "destination": "livesheet/pdf_experimental.py",
+    "extractedSHA256": "c72f3a60f6c58edf65f86918853fc0ac4c059a1209b35e236b442a4add52e6f1"
+  },
+  "scripts/pdf_preflight.py": {
+    "sourceSHA256": "03456ec1191c231a40ca351279592a0fbf2e6d23d15931f180f3aee825062ba5",
+    "destination": "livesheet/pdf_preflight.py",
+    "extractedSHA256": "03456ec1191c231a40ca351279592a0fbf2e6d23d15931f180f3aee825062ba5"
+  },
+  "scripts/pdf_music_fonts.py": {
+    "sourceSHA256": "da4d03c722ed934fb82ddeedad8429f091a8a13fc524acfa39bfa9f6201cc973",
+    "destination": "livesheet/pdf_music_fonts.py",
+    "extractedSHA256": "da4d03c722ed934fb82ddeedad8429f091a8a13fc524acfa39bfa9f6201cc973"
+  },
+  "scripts/pdf_ocr_guard.py": {
+    "sourceSHA256": "8d0360a585dc2921ba9e5eba24d5423cb4c0f737c6a619cdae7c0d4e45cdac30",
+    "destination": "livesheet/pdf_ocr_guard.py",
+    "extractedSHA256": "4b6dea20cf9cf8ab0e3af7d8310c3a3d52cf2a317624b6e6d39f8c0e333998c0"
+  },
+  "scripts/pdf_articulation_recovery.py": {
+    "sourceSHA256": "d111ec13014e4bdd3495809109dbc0e3e8ab6b7cef439ac1f8c00f72e4dea87f",
+    "destination": "livesheet/pdf_articulation_recovery.py",
+    "extractedSHA256": "35a9237d8e38ecf4d0e752aea8f2a94ba647a0d8c3409ed303d95f7505ecb604"
+  },
+  "scripts/pdf_context_recovery.py": {
+    "sourceSHA256": "f2c8ac12142acbacd9ee1f064b425cee0c71532478159e18af55dc75458da980",
+    "destination": "livesheet/pdf_context_recovery.py",
+    "extractedSHA256": "52a142e0d685991f999c946db805ad4479042ab31082cbe59e7a9143c5204c2f"
+  },
+  "scripts/pdf_staff_evidence.py": {
+    "sourceSHA256": "8fa09b60d658d9300d56de1995028d13591439cd63d4ea0b39c427a15b6415bf",
+    "destination": "livesheet/pdf_staff_evidence.py",
+    "extractedSHA256": "76aa756ba8568376794c8247552cba6b6e3b31048207b76410bd169a63601b4d"
+  },
+  "scripts/pdf_pedal_recovery.py": {
+    "sourceSHA256": "da13fa9bd698bfc46e65579ce7096b5d1f09555f4923e80b71e0fbd1e7f2f11f",
+    "destination": "livesheet/pdf_pedal_recovery.py",
+    "extractedSHA256": "05952adc8e88affe6aed3fc143f357b75b1f140186fe99a3bde2b7044d617856"
+  },
+  "scripts/pdf_tempo_recovery.py": {
+    "sourceSHA256": "9977529948df0fe37034b9ea63d01803c6fdd5d257c4f70896869484232dd061",
+    "destination": "livesheet/pdf_tempo_recovery.py",
+    "extractedSHA256": "a39c05457dc8ea8dcd011eb97e5d753ed1d0d70f489997ea8b1ee33b46f2eecc"
+  },
+  "scripts/pdf_performance_fixtures.py": {
+    "sourceSHA256": "fa82e06a3cb7778a861c15454fa5cd19fa1f6b24cd5c2ce33cd4732c71c769c0",
+    "destination": "livesheet/testing/pdf_performance_fixtures.py",
+    "extractedSHA256": "de3bc33837fe875e1bc4c978a482ec50cf8efa288c28543732212e4c650fae07"
+  },
+  "scripts/pdf_ledger_recovery.py": {
+    "sourceSHA256": "4e24c8f40720fa2d1a8f3bd58cd0d7579d76339dda85b8acf839f634aea0a7d4",
+    "destination": "livesheet/pdf_ledger_recovery.py",
+    "extractedSHA256": "f97380cb109974573438a2b8f377cdb2b44bce07c8e72f9485fba69d4bafe8ac"
+  },
+  "scripts/pdf_octave_recovery.py": {
+    "sourceSHA256": "2e80ad30be65d500b5f6ca2fa959f2fbafcee2bca1f01b09e037d852c2282977",
+    "destination": "livesheet/pdf_octave_recovery.py",
+    "extractedSHA256": "63b07f9d3dba11d571fb8c381605c9f28d197a8d338f178e09f804edc14a2269"
+  },
+  "scripts/pdf_reference.py": {
+    "sourceSHA256": "fbcb4359b6c5a9c3caa679723ca1ff3820918eccf507b9bdd444481a84d2e89a",
+    "destination": "livesheet/pdf_reference.py",
+    "extractedSHA256": "fbcb4359b6c5a9c3caa679723ca1ff3820918eccf507b9bdd444481a84d2e89a"
+  },
+  "scripts/pdf_tuplet_recovery.py": {
+    "sourceSHA256": "5dde41a3524991eca2625bf096295f85d61ac94ed05820382c5669124f58485c",
+    "destination": "livesheet/pdf_tuplet_recovery.py",
+    "extractedSHA256": "444ad9476b42633220c004979622b48508ff20f4e1eb2acd69028915e7791ca2"
+  },
+  "scripts/pdf_rhythm_evidence.py": {
+    "sourceSHA256": "901fd1d2ca1568772e9e7f4f346f3f560aefbe2caae53a3b701749b6ddf3eb2f",
+    "destination": "livesheet/pdf_rhythm_evidence.py",
+    "extractedSHA256": "0607a6cbe6943ac9036fead28d55e3aa8ab58862f28946f2299f3b1af54ddb12"
+  },
+  "scripts/pdf_reference_fixtures.py": {
+    "sourceSHA256": "49f8d21147efefb97f9b3ab9edb33bacaa8f4c2c7d56c6ed45975146edf1994d",
+    "destination": "livesheet/testing/pdf_reference_fixtures.py",
+    "extractedSHA256": "49f8d21147efefb97f9b3ab9edb33bacaa8f4c2c7d56c6ed45975146edf1994d"
+  },
+  "scripts/pdf_attribute_recovery.py": {
+    "sourceSHA256": "f99f60152b41ab1604f345f05650ced9585959dcca83007d37555bb4ad095b41",
+    "destination": "livesheet/pdf_attribute_recovery.py",
+    "extractedSHA256": "cfc92d076f8024e1e18b166939076b416c512eb38b6f6091f03afb6c4ac983ff"
+  },
+  "scripts/pdf_terminal_recovery.py": {
+    "sourceSHA256": "ed499f7cfd3f8594a66b9889bdcb632df74643e198946a9d5cdf27f1e1d547e0",
+    "destination": "livesheet/pdf_terminal_recovery.py",
+    "extractedSHA256": "26465dcb8e81797014e1a67b98169e4750c46e0283f0d87dd329455acad632ac"
+  },
+  "scripts/pdf_vector_recovery.py": {
+    "sourceSHA256": "6674d300a8e9e9134c3b356341533a5f531a01f3a3f2faf680800fe35fc90f58",
+    "destination": "livesheet/pdf_vector_recovery.py",
+    "extractedSHA256": "1ba53477b7f24e8fd11b64e8b16c9e4c844e53214dca2f7e0d10efa1c3aa9bf6"
+  },
+  "scripts/pdf_dynamic_recovery.py": {
+    "sourceSHA256": "f4222d940bfa9fc84d8f8077a4047cd48d68287e1b5cab5fe233ae7f6741fa63",
+    "destination": "livesheet/pdf_dynamic_recovery.py",
+    "extractedSHA256": "b759231446f7bcaa62749cf2b22136abf6f0fa205b10fbcb960ac68b8f5403fc"
+  },
+  "scripts/pdf_fermata_recovery.py": {
+    "sourceSHA256": "59fb3cddbcd4d1650962bd6063d2f34637939897a36206750e15476a12b7ffca",
+    "destination": "livesheet/pdf_fermata_recovery.py",
+    "extractedSHA256": "193b78b4d7e88c9e9aaa91616859d929cfc5f91ae9ecc1bf76d4443906b32078"
+  },
+  "scripts/pdf_rhythm_repair.py": {
+    "sourceSHA256": "06e3a046f36698c3bba84b34dde825b5d5ff401bc6212cd1e5b3f7852d5bcf28",
+    "destination": "livesheet/pdf_rhythm_repair.py",
+    "extractedSHA256": "06e3a046f36698c3bba84b34dde825b5d5ff401bc6212cd1e5b3f7852d5bcf28"
+  },
+  "scripts/pdf_repeat_recovery.py": {
+    "sourceSHA256": "2729d41d559816a170cb459095b369fa3b4b467160eb2bead53c923c5dc326cc",
+    "destination": "livesheet/pdf_repeat_recovery.py",
+    "extractedSHA256": "9a78f2b0e6a152254aa05a269ef407a2d91943c440ef04bfca024aa0a1259d1f"
+  },
+  "scripts/pdf_clef_recovery.py": {
+    "sourceSHA256": "1859d3c5b6c0c894fbf3716761c79c784877e8ebcee82ba43ce0b70369107b7d",
+    "destination": "livesheet/pdf_clef_recovery.py",
+    "extractedSHA256": "a5b24191e415723d61019595788ea404e2e8980aa03f66567307f477f9081436"
+  },
+  "scripts/pdf_whole_recovery.py": {
+    "sourceSHA256": "f755e460b3045efa276d50f3fa5556a1ae9836ce5c5bad9ae52caa841f528ef4",
+    "destination": "livesheet/pdf_whole_recovery.py",
+    "extractedSHA256": "17b2db91d5948bb2590d82f13631d707ea0c10346058444098e560e8c730152f"
+  },
+  "scripts/pdf_performance_reference.py": {
+    "sourceSHA256": "36f0d1d559c587263ea243645c145147a8a25bc850c0ad16a00f717bff822eac",
+    "destination": "livesheet/testing/pdf_performance_reference.py",
+    "extractedSHA256": "36f0d1d559c587263ea243645c145147a8a25bc850c0ad16a00f717bff822eac"
+  },
+  "scripts/prepare_score_library.py": {
+    "sourceSHA256": "102b478da1411a0362b163f2553cf797a2e6449b4bd16ae748d02d72ab9536b9",
+    "destination": "livesheet/recognition.py",
+    "extractedSHA256": "9379714d7cc064df78f3a2021875374f4a18f89640614ead25385c3c8df35d95"
+  },
+  "scripts/prepare_web_scores.py": {
+    "sourceSHA256": "ce099171a5b406a19b576bebed7da3c002629ccfa41dcc9d11eba43a8de7b6ad",
+    "destination": "livesheet/playback.py",
+    "extractedSHA256": "a6185c66b7f1c104f6bdb7f533cb8b134105252dd65c009ca40decafd0a17fef"
+  },
+  "scripts/prepare_native_pdf_examples.py": {
+    "sourceSHA256": "fcbab5e22493ceda29b7fbb15da09b1e27590dd2462705e627c5afff916f9a00",
+    "destination": "livesheet/companion.py",
+    "extractedSHA256": "a3d20d778235d02c77634e5c1c9e62f17d622675a6b5f10ba6e0e811f5005f38"
+  },
+  "scripts/prepare_pdf_job.py": {
+    "sourceSHA256": "ff27fe663fa1f3fe7211ed685801378647bc4c9aea2cbea75d816d94dcdc48e1",
+    "destination": "livesheet/worker.py",
+    "extractedSHA256": "11174d44bb440addcd032c036acc09c498e652c79042724328072a05ee16fdbf"
+  },
+  "scripts/local_pdf_server.py": {
+    "sourceSHA256": "ec135ddcbd220a650444c370996bab50fe524ccf59688be3348a8ede2402b163",
+    "destination": "livesheet/server.py",
+    "extractedSHA256": "d24c9f8ae88fb2b0cd7a22303217402857b136047f0d739a2ed1cf3e9da25d19"
+  },
+  "scripts/score_recognition.py": {
+    "sourceSHA256": "e6cfa250a25585d4e41464d35df000633a1c11251eeaa4e99d86f2ebc2f85597",
+    "destination": "livesheet/score_recognition.py",
+    "extractedSHA256": "e6cfa250a25585d4e41464d35df000633a1c11251eeaa4e99d86f2ebc2f85597"
+  },
+  "scripts/audiveris_export_recovery.py": {
+    "sourceSHA256": "8c8e24c6d7712a178bc989de0bdf35921b85b3dada2d34cc2f58fa1aa4edb3e7",
+    "destination": "livesheet/audiveris_export_recovery.py",
+    "extractedSHA256": "14412f8ea465f382b8d1aaf038948429285a81ae7bc413b30aac6bfd122cbf8c"
+  },
+  "scripts/audit_pdf_recognition.py": {
+    "sourceSHA256": "a163a4de329ea7309cdd5cd8c4d6a033888418ce123f0e94d8de86166701663e",
+    "destination": "livesheet/audit_pdf_recognition.py",
+    "extractedSHA256": "a163a4de329ea7309cdd5cd8c4d6a033888418ce123f0e94d8de86166701663e"
+  },
+  "scripts/pdf_pipeline/config.py": {
+    "sourceSHA256": "0e9c052bf942ae4cc500d4acd4285796b51bbef8ff6a9e71076c88925454a5dc",
+    "destination": "livesheet/pdf_pipeline/config.py",
+    "extractedSHA256": "0e9c052bf942ae4cc500d4acd4285796b51bbef8ff6a9e71076c88925454a5dc"
+  },
+  "scripts/pdf_pipeline/cache.py": {
+    "sourceSHA256": "731609bee8d39da64450302813bf537e0c387fb044e056290942c588f3b2ed5d",
+    "destination": "livesheet/pdf_pipeline/cache.py",
+    "extractedSHA256": "731609bee8d39da64450302813bf537e0c387fb044e056290942c588f3b2ed5d"
+  },
+  "scripts/pdf_pipeline/__init__.py": {
+    "sourceSHA256": "365d86e08e72e9fa7355cb14439d0ea61e65c72aaf7dc404a83de0b9f51dcdbd",
+    "destination": "livesheet/pdf_pipeline/__init__.py",
+    "extractedSHA256": "365d86e08e72e9fa7355cb14439d0ea61e65c72aaf7dc404a83de0b9f51dcdbd"
+  },
+  "scripts/pdf_pipeline/stages.py": {
+    "sourceSHA256": "1e6931d1203952a74b593a5020882e83f623559c7794bf80209a611d45506e26",
+    "destination": "livesheet/pdf_pipeline/stages.py",
+    "extractedSHA256": "64dc47f6d606678d39a0275ca5374acb251f36522d9e9bf87eb9e783788ae960"
+  },
+  "scripts/pdf_pipeline/artifacts.py": {
+    "sourceSHA256": "f495aa517beb3f5351e5250f7d5650321e12c89b1ea7e72f618fe10b7af9c3bf",
+    "destination": "livesheet/pdf_pipeline/artifacts.py",
+    "extractedSHA256": "f495aa517beb3f5351e5250f7d5650321e12c89b1ea7e72f618fe10b7af9c3bf"
+  },
+  "scripts/check_pdf_performance.py": {
+    "sourceSHA256": "20302f2a93e04ca78d0abffc6de4d0959355989a93ac49d985d164383dc586c7",
+    "destination": "livesheet/testing/check_pdf_performance.py",
+    "extractedSHA256": "52dbb5f2a511699f5ac4689047088426e7cff30027ebcbe73616b7ce01beb616"
+  },
+  "scripts/check_pdf_printed_performance.py": {
+    "sourceSHA256": "5a48650616a585d6e1ffd9ac8d1e801db56c326399983ef068e5ceb674a2bfb8",
+    "destination": "livesheet/testing/check_pdf_printed_performance.py",
+    "extractedSHA256": "6497c83c864041e30dbc033334cd37c5ba42a67c9e12b4650d27d463e1773f92"
+  },
+  "scripts/check_pdf_performance_mutations.py": {
+    "sourceSHA256": "8f8840e9ffe420503205c3c4cb13831fdf90fb0aacb8dcc1c5348a166d67a6e1",
+    "destination": "livesheet/testing/check_pdf_performance_mutations.py",
+    "extractedSHA256": "0666280169b6a0d13c061ed9a063d084c34144f199edb5629cc50fbce688a930"
+  }
+}
