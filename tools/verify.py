@@ -95,7 +95,7 @@ def main():
         return verify(args, image)
 
 
-def verify(args, image):
+def verify(args, image, container_factory=container):
     out = args.output.resolve()
     storage = out / "jobs"
     storage.mkdir(parents=True, exist_ok=True)
@@ -141,7 +141,7 @@ def verify(args, image):
                 save(stamp, key)
                 with (job / "container.log").open("w") as log:
                     subprocess.run(
-                        container(image, storage)
+                        container_factory(image, storage)
                         + [
                             "worker",
                             "--job-dir",

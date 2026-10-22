@@ -1,0 +1,7 @@
+*
+!pyproject.toml
+!LICENSE
+!THIRD_PARTY_NOTICES.md
+!livesheet/
+!livesheet/**
+!source.tar.gz

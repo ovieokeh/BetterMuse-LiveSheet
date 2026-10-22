@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Local PDF jobs with an opt-in private device listener. No public hosting."""
+"""PDF jobs with local, private-device, and authenticated pilot listeners."""
 from livesheet.pdf_pipeline.config import PREPARATION_PROFILE
 
 import argparse
@@ -20,10 +20,12 @@ import socket
 import subprocess
 import sys
 import threading
+import tempfile
 import time
 from urllib.parse import unquote, urlparse
 import uuid
 
+from livesheet.pilot import PilotAccess, PilotQuota
 from livesheet.pdf_preflight import MAX_BYTES
 from livesheet.pdf_pipeline.artifacts import verify_result
 from livesheet.recognition import atomic_json, AUDIVERIS
@@ -117,32 +119,52 @@ def now():
 
 
 def terminate(process):
-    if process is None or process.poll() is not None:
+    """Reap the leader and remove descendants left in its private session.
+
+    Call only while owning the job's reservation. Its process group is never
+    shared with another conversion, including retries of the same upload.
+    """
+    if process is None or getattr(process, "_livesheet_stopped", False):
         return
     try:
-        os.killpg(process.pid, signal.SIGTERM)
+        process.send_signal(signal.SIGTERM)
         process.wait(timeout=8)
-    except subprocess.TimeoutExpired:
-        os.killpg(process.pid, signal.SIGKILL)
-        process.wait()
     except ProcessLookupError:
+        process.wait()
+    except subprocess.TimeoutExpired:
         pass
+    finally:
+        # A tool can ignore TERM even after the Python leader has exited.
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        process.wait()
+        process._livesheet_stopped = True
 
 
 class Jobs:
-    def __init__(self, root, audiveris=AUDIVERIS, musescore=MSCORE, start=True):
+    def __init__(self, root, audiveris=AUDIVERIS, musescore=MSCORE, start=True, workers=2):
+        if workers not in (1, 2):
+            raise ValueError("workers must be 1 or 2")
         self.root, self.audiveris, self.musescore = root.resolve(), audiveris, musescore
         self.root.mkdir(parents=True, exist_ok=True)
         self.root.chmod(0o700)
         self.file_lock = (self.root / "server.lock").open("w")
-        fcntl.flock(self.file_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        try:
+            fcntl.flock(self.file_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError:
+            self.file_lock.close()
+            raise
         self.lock = threading.RLock()
         self.closed = threading.Event()
-        self.process = None
-        self.active = None
+        self.active = {}  # Job ID -> process; retained until its runner finishes.
+        self.worker_heartbeats = {}
         self.submitting = threading.BoundedSemaphore(1)
-        for folder in self.root.glob("incoming-*"):
-            shutil.rmtree(folder)
+        self.pilot_quota = None
+        for pattern in ("incoming-*", "runtime-*"):
+            for folder in self.root.glob(pattern):
+                shutil.rmtree(folder)
         for job in self.list():
             if job["state"] == "running":
                 self.update(job["id"], state="queued")
@@ -157,9 +179,12 @@ class Jobs:
                         job["id"], state="failed", error="invalid_preparation_result"
                     )
         self.cleanup()
-        self.thread = threading.Thread(target=self.work, daemon=True)
+        self.threads = [threading.Thread(target=self.work, daemon=True,
+                                         name=f"pdf-worker-{i + 1}")
+                        for i in range(workers)]
         if start:
-            self.thread.start()
+            for thread in self.threads:
+                thread.start()
 
     def read(self, ident):
         if not JOB_ID.fullmatch(ident):
@@ -180,6 +205,8 @@ class Jobs:
         job = self.read(ident)
         job.update(fields, updatedAt=now())
         atomic_json(self.root / ident / "job.json", job)
+        if 'state' in fields:
+            logging.info('job id=%s state=%s error=%s', ident, job['state'], job.get('error') or '-')
         return job
 
     def list(self):
@@ -198,8 +225,7 @@ class Jobs:
                 except (ValueError, KeyError, TypeError, UnicodeError):
                     # Preserve source/evidence privately. Unknown ownership must
                     # never become an anonymous web job. Other jobs can proceed.
-                    if self.active == folder.name:
-                        terminate(self.process)
+                    terminate(self.active.get(folder.name))
                     quarantine = self.root / (
                         "quarantine-" + folder.name + "-" + uuid.uuid4().hex
                     )
@@ -241,6 +267,8 @@ class Jobs:
         return job
 
     def check_capacity(self):
+        if self.closed.is_set():
+            raise ValueError("service_stopping")
         if sum(j["state"] not in TERMINAL for j in self.list()) >= 10:
             raise ValueError("queue_full")
         if (
@@ -249,17 +277,17 @@ class Jobs:
         ):
             raise ValueError("storage_low")
 
-    def submit(self, data, filename, owner=None, key=None, profile=None):
+    def submit(self, data, filename, owner=None, key=None, profile=None, principal=None):
         if profile not in {None, PREPARATION_PROFILE}:
             raise ValueError("invalid_preparation_profile")
         if not self.submitting.acquire(blocking=False):
             raise ValueError("upload_busy")
         try:
-            return self._submit(data, filename, owner, key)
+            return self._submit(data, filename, owner, key, principal)
         finally:
             self.submitting.release()
 
-    def _submit(self, data, filename, owner, key):
+    def _submit(self, data, filename, owner, key, principal=None):
         digest = hashlib.sha256(data).hexdigest()
         with self.lock:
             if key:
@@ -274,6 +302,8 @@ class Jobs:
                             raise ValueError("idempotency_conflict")
                         return self.public(existing)
             self.check_capacity()
+            if principal:
+                self.pilot_quota.admit(principal, self.list())
             ident = uuid.uuid4().hex
             folder = self.root / f"incoming-{ident}"
             folder.mkdir(mode=0o700)
@@ -302,20 +332,23 @@ class Jobs:
             if folder.exists():
                 shutil.rmtree(folder)
 
-    def action(self, ident, action):
+    def action(self, ident, action, principal=None):
         with self.lock:
+            if self.closed.is_set():
+                raise ValueError("service_stopping")
             job = self.read(ident)
             if action == "retry":
                 if job["state"] not in {"failed", "cancelled"}:
                     raise ValueError("job_not_retryable")
                 self.check_capacity()
+                if principal:
+                    self.pilot_quota.admit(principal, self.list())
                 (self.root / ident / "stage.json").unlink(missing_ok=True)
                 (self.root / ident / "result.json").unlink(missing_ok=True)
                 (self.root / ident / "completion.json").unlink(missing_ok=True)
                 (self.root / ident / "failure.json").unlink(missing_ok=True)
                 return self.update(ident, state="queued", error=None, profile=PREPARATION_PROFILE)
-            if self.active == ident:
-                terminate(self.process)
+            terminate(self.active.get(ident))
             if action == "delete":
                 shutil.rmtree(self.root / ident)
                 return dict(deleted=True)
@@ -333,94 +366,131 @@ class Jobs:
                 if job["state"] in TERMINAL and age > 7 * 86400:
                     shutil.rmtree(self.root / job["id"])
 
+    def launch(self, folder, log, runtime):
+        # Private tool settings and compiler caches prevent cross-job writes.
+        home = runtime / "home"
+        home.mkdir()
+        env = dict(os.environ, HOME=str(home), TMPDIR=str(runtime),
+                   XDG_CONFIG_HOME=str(home / ".config"),
+                   XDG_CACHE_HOME=str(home / ".cache"),
+                   PDF_EXPORT_CACHE=str(runtime / "compiler-cache"))
+        return subprocess.Popen(
+            [sys.executable, "-m", "livesheet.job_runner", str(os.getpid()),
+             "--job-dir", str(folder), "--audiveris", str(self.audiveris),
+             "--musescore", str(self.musescore)],
+            stdout=log, stderr=subprocess.STDOUT, start_new_session=True, env=env,
+            # Keep ownership after a server crash until the supervisor exits.
+            pass_fds=(self.file_lock.fileno(),),
+        )
+
     def work(self):
         last_cleanup = 0
         while not self.closed.wait(0.5):
-            if time.monotonic() - last_cleanup > 3600:
-                self.cleanup()
-                last_cleanup = time.monotonic()
+            self.worker_heartbeats[threading.current_thread().name] = time.monotonic()
+            try:
+                if time.monotonic() - last_cleanup > 3600:
+                    self.cleanup()
+                    last_cleanup = time.monotonic()
+                self.run_next()
+            except Exception:
+                # Filesystem or metadata failures must not silently remove a slot.
+                logging.exception("PDF worker scheduling failed")
+
+    def run_next(self):
+        runtime = None
+        log = None
+        process = None
+        ident = None
+        try:
             with self.lock:
-                job = next((j for j in self.list() if j["state"] == "queued"), None)
+                if self.closed.is_set():
+                    return
+                job = next((j for j in self.list()
+                            if j["state"] == "queued" and j["id"] not in self.active), None)
                 if not job:
-                    continue
+                    return
                 ident = job["id"]
                 folder = self.root / ident
-                (folder / "completion.json").unlink(missing_ok=True)
-                (folder / "failure.json").unlink(missing_ok=True)
-                self.update(ident, state="running", error=None, startedAt=now(), profile=PREPARATION_PROFILE)
-                self.active = ident
-                log = (folder / "worker.log").open("a")
+                for name in ("stage.json", "completion.json", "failure.json", "result.json"):
+                    (folder / name).unlink(missing_ok=True)
+                self.update(ident, state="running", error=None, startedAt=now(),
+                            profile=PREPARATION_PROFILE)
                 try:
-                    self.process = subprocess.Popen(
-                        [
-                            sys.executable,
-                            "-m", "livesheet.worker",
-                            "--job-dir",
-                            str(folder),
-                            "--audiveris",
-                            str(self.audiveris),
-                            "--musescore",
-                            self.musescore,
-                        ],
-                        stdout=log,
-                        stderr=subprocess.STDOUT,
-                        start_new_session=True,
-                    )
+                    runtime = Path(tempfile.mkdtemp(prefix=f"runtime-{ident}-", dir=self.root))
+                    log = (folder / "worker.log").open("a")
+                    process = self.launch(folder, log, runtime)
+                    self.active[ident] = process
                 except Exception:
-                    log.close()
-                    self.active = None
                     self.update(ident, state="failed", error="worker_unavailable")
-                    continue
+                    logging.exception("Could not launch PDF worker")
+                    return
             failure = None
             deadline = time.monotonic() + 2400
-            try:
-                while True:
-                    try:
-                        code = self.process.wait(timeout=WATCH_INTERVAL)
-                        break
-                    except subprocess.TimeoutExpired:
-                        with self.lock:
-                            if (
-                                not folder.exists()
-                                or self.read(ident)["state"] != "running"
-                            ):
-                                continue
-                            if time.monotonic() > deadline:
-                                failure = "preparation_timeout"
-                            elif shutil.disk_usage(self.root).free < FREE_FLOOR:
-                                failure = "storage_low"
-                            elif disk_bytes(folder) > JOB_LIMIT:
-                                failure = "job_storage_limit"
-                            if failure:
-                                terminate(self.process)
-                                code = 1
-                                break
-            finally:
-                log.close()
+            while True:
+                self.worker_heartbeats[threading.current_thread().name] = time.monotonic()
+                try:
+                    code = process.wait(timeout=WATCH_INTERVAL)
+                    break
+                except subprocess.TimeoutExpired:
+                    with self.lock:
+                        # list() also quarantines malformed metadata safely.
+                        current = next((j for j in self.list() if j["id"] == ident), None)
+                        if self.closed.is_set() or not current or current["state"] != "running":
+                            terminate(process)
+                            return
+                        if time.monotonic() > deadline:
+                            failure = "preparation_timeout"
+                        elif (shutil.disk_usage(self.root).free < FREE_FLOOR
+                              or disk_bytes(self.root) >= STORE_LIMIT):
+                            failure = "storage_low"
+                        elif disk_bytes(folder) + disk_bytes(runtime) > JOB_LIMIT:
+                            failure = "job_storage_limit"
+                        if failure:
+                            terminate(process)
+                            code = 1
+                            break
             with self.lock:
-                self.active = None
-                self.process = None
+                terminate(process)  # No descendant may write after validation.
                 if self.closed.is_set():
-                    return  # Restart will requeue interrupted work.
-                if not folder.exists() or self.read(ident)["state"] != "running":
-                    continue
+                    return  # Restart requeues interrupted work.
+                current = next((j for j in self.list() if j["id"] == ident), None)
+                if not current or current["state"] != "running":
+                    return  # Cancel, delete or retry wins over a late result.
                 if code == 0:
                     try:
                         verify_result(folder)
                     except (OSError, ValueError, KeyError, TypeError):
                         failure = "invalid_preparation_result"
-                if code == 0 and failure is None:
-                    self.update(ident, state="ready")
-                else:
-                    self.update(
-                        ident, state="failed", error=failure or "preparation_failed"
-                    )
+                self.update(ident, state="ready" if code == 0 and failure is None else "failed",
+                            error=failure or ("preparation_failed" if code else None))
+        except Exception:
+            with self.lock:
+                if ident and not self.closed.is_set():
+                    current = next((j for j in self.list() if j["id"] == ident), None)
+                    if current and current["state"] == "running":
+                        self.update(ident, state="failed", error="worker_unavailable")
+            raise
+        finally:
+            with self.lock:
+                # Keep the reservation through process and directory cleanup.
+                # An immediate retry cannot overlap the previous attempt.
+                if process is not None and self.active.get(ident) is process:
+                    terminate(process)
+                    del self.active[ident]
+                if log:
+                    log.close()
+                if runtime:
+                    shutil.rmtree(runtime, ignore_errors=True)
 
     def close(self):
-        self.closed.set()
-        terminate(self.process)
-        if self.thread.is_alive():
-            self.thread.join(timeout=10)
+        with self.lock:
+            self.closed.set()  # No new claims or submissions after this point.
+            for process in self.active.values():
+                terminate(process)
+        for thread in self.threads:
+            if thread.is_alive():
+                thread.join()
+        # Never release storage ownership while a runner can still write to it.
         self.file_lock.close()
 
 
@@ -483,20 +553,65 @@ class Handler(BaseHTTPRequestHandler):
         except ValueError:
             return False
 
+    def log_message(self, format, *args):
+        # Never log authorization, filenames, query strings, or client addresses.
+        logging.info("http method=%s status=%s", self.command, args[1] if len(args) > 1 else "-")
+
+    def pilot_status(self, detailed=False):
+        store = self.server.jobs
+        workers = all(t.is_alive() and time.monotonic() - store.worker_heartbeats.get(t.name, 0) < 90
+                      for t in store.threads) and not store.closed.is_set()
+        tools = store.audiveris.is_file() and Path(store.musescore).is_file()
+        free = shutil.disk_usage(store.root).free
+        value = dict(healthy=workers and tools and free >= FREE_FLOOR)
+        if detailed:
+            jobs = store.list()
+            value.update(workersAlive=sum(t.is_alive() for t in store.threads),
+                         workersConfigured=len(store.threads), toolsAvailable=tools,
+                         freeBytes=free, storageFloorBytes=FREE_FLOOR,
+                         jobs={state: sum(j['state'] == state for j in jobs)
+                               for state in sorted(TERMINAL | {'queued', 'running'})},
+                         oldestQueuedSeconds=max([0] + [int(time.time() - datetime.fromisoformat(j['updatedAt']).timestamp()) for j in jobs if j['state'] == 'queued']),
+                         failuresLast24Hours=sum(j['state'] == 'failed' and time.time() - datetime.fromisoformat(j['updatedAt']).timestamp() < 86400 for j in jobs))
+        return value
+
     def dispatch(self):
-        if not self.allowed():
+        self.principal = None
+        pilot = getattr(self.server, 'pilot_access', None)
+        parts = urlparse(self.path).path.strip("/").split("/")
+        if pilot:
+            hosts = self.headers.get_all('Host', [])
+            if len(hosts) != 1 or hosts[0] not in self.server.pilot_hosts:
+                return self.send(403, dict(error='host_not_allowed'))
+            if self.command == 'GET' and parts == ['health']:
+                health = self.pilot_status()
+                return self.send(200 if health['healthy'] else 503, health)
+            if (self.headers.get('Origin') or self.headers.get('Sec-Fetch-Site')
+                    or len(self.headers.get_all('Authorization', [])) != 1):
+                return self.send(401, dict(error='authentication_required'))
+            self.principal = pilot.authenticate(self.headers.get('Authorization', ''))
+            if not self.principal:
+                return self.send(401, dict(error='authentication_required'))
+            if parts == ['metrics'] and self.command == 'GET':
+                if self.principal.role != 'operator':
+                    return self.send(403, dict(error='operator_required'))
+                return self.send(200, self.pilot_status(detailed=True))
+        elif not self.allowed():
             return self.send(403, dict(error="local_only"))
         store = self.server.jobs
         token = getattr(self.server, "native_token", None)
-        self.owner = hashlib.sha256(token.encode()).hexdigest() if token else None
+        self.owner = self.principal.owner if self.principal else hashlib.sha256(token.encode()).hexdigest() if token else None
         parts = urlparse(self.path).path.strip("/").split("/")
         try:
+            if pilot and self.command == 'GET' and parts == ['source']:
+                return self.send(200, Path('/opt/livesheet-notices/source.tar.gz').read_bytes(), 'application/gzip')
             if self.command == "GET" and parts == ["health"]:
                 return self.send(
                     200,
                     dict(
                         local=True,
-                        worker=store.thread.is_alive(),
+                        worker=all(t.is_alive() for t in store.threads),
+                        workerCount=len(store.threads),
                         toolsAvailable=store.audiveris.is_file()
                         and Path(store.musescore).is_file(),
                         maxBytes=MAX_BYTES,
@@ -546,6 +661,7 @@ class Handler(BaseHTTPRequestHandler):
                             self.owner,
                             key,
                             self.headers.get("X-Preparation-Profile"),
+                            principal=self.principal,
                         ),
                     )
             if len(parts) >= 2 and parts[0] == "jobs" and JOB_ID.fullmatch(parts[1]):
@@ -559,8 +675,9 @@ class Handler(BaseHTTPRequestHandler):
             reason = str(error)
             status = (
                 429
-                if reason in {"queue_full", "upload_busy"}
-                else 507 if reason == "storage_low" else 400
+                if reason in {"queue_full", "upload_busy", "pilot_pending_limit", "pilot_daily_limit"}
+                else 507 if reason == "storage_low"
+                else 503 if reason == "service_stopping" else 400
             )
             return self.send(status, dict(error=reason))
         except (BrokenPipeError, ConnectionResetError, TimeoutError):
@@ -585,7 +702,7 @@ class Handler(BaseHTTPRequestHandler):
             and self.command == "POST"
             and parts[2] in {"cancel", "retry"}
         ):
-            return store.public(store.action(ident, parts[2])), "application/json"
+            return store.public(store.action(ident, parts[2], principal=self.principal)), "application/json"
         if len(parts) == 4 and parts[2] == "files" and self.command == "GET":
             name = parts[3]
             folder = store.root / ident
@@ -637,6 +754,7 @@ class Handler(BaseHTTPRequestHandler):
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--port", type=int, default=3176)
+    parser.add_argument("--workers", type=int, choices=(1, 2), default=2)
     parser.add_argument("--bind", choices=("127.0.0.1", "0.0.0.0"), default="127.0.0.1", help="Use 0.0.0.0 only inside a container with a loopback-only host port")
     parser.add_argument(
         "--storage", type=Path, default=Path(os.environ.get("LIVESHEET_STORAGE", "data/jobs"))
@@ -653,7 +771,15 @@ def parse_args(argv=None):
         "--native-name", help="Optional local mDNS hostname, e.g. phoenix.local"
     )
     parser.add_argument("--native-token-file", type=Path)
+    parser.add_argument('--pilot-host', help='Public HTTPS hostname; authenticated pilot only')
+    parser.add_argument('--pilot-credentials', type=Path)
     args = parser.parse_args(argv)
+    if bool(args.pilot_host) != bool(args.pilot_credentials):
+        parser.error('pilot-host and pilot-credentials must be supplied together')
+    if args.pilot_host:
+        if args.native_host or not re.fullmatch(r'[a-z0-9]+(?:[.-][a-z0-9]+)*', args.pilot_host):
+            parser.error('pilot requires a valid hostname and no native listener')
+        PilotAccess(args.pilot_credentials)
     if not args.native_host and (args.native_bind or args.native_name or args.native_token_file):
         parser.error("native-host is required for native listener options")
     token = None
@@ -685,10 +811,14 @@ def parse_args(argv=None):
 
 def main():
     args, token = parse_args()
-    jobs = Jobs(args.storage, args.audiveris, args.musescore)
+    jobs = Jobs(args.storage, args.audiveris, args.musescore, workers=args.workers)
     os.umask(0o077)
     server = BoundedHTTPServer((args.bind, args.port), Handler)
     server.jobs = jobs
+    if args.pilot_host:
+        server.pilot_access = PilotAccess(args.pilot_credentials)
+        server.pilot_hosts = {args.pilot_host, args.pilot_host + ':443', f'127.0.0.1:{args.port}'}
+        jobs.pilot_quota = PilotQuota(jobs.root / 'pilot-quota.sqlite3')
     native = None
     if token:
         native = BoundedHTTPServer((args.native_bind or args.native_host, args.native_port), Handler)
@@ -702,7 +832,8 @@ def main():
             flush=True,
         )
     signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
-    print(f"Local PDF preparation: http://127.0.0.1:{args.port}", flush=True)
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    print(f"PDF preparation listener: {args.bind}:{args.port}; pilot={bool(args.pilot_host)}", flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

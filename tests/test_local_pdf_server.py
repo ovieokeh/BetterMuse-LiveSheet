@@ -182,10 +182,10 @@ class LocalPDFServerTests(unittest.TestCase):
             return process
         ident = self.upload()['id']
         with patch('livesheet.server.subprocess.Popen', side_effect=sleeping_worker):
-            self.store.thread.start()
+            self.store.threads[0].start()
             deadline = time.monotonic() + 5
-            while self.store.active != ident and time.monotonic() < deadline: time.sleep(.02)
-            self.assertEqual(self.store.active, ident)
+            while ident not in self.store.active and time.monotonic() < deadline: time.sleep(.02)
+            self.assertIn(ident, self.store.active)
             self.store.action(ident, 'cancel')
             self.assertIsNotNone(spawned[0].poll())
             self.assertEqual(self.store.read(ident)['state'], 'cancelled')
@@ -241,7 +241,7 @@ class LocalPDFServerTests(unittest.TestCase):
         with patch('livesheet.server.subprocess.Popen', side_effect=sleeper), \
              patch('livesheet.server.disk_bytes', return_value=3 * 1024**3), \
              patch('livesheet.server.WATCH_INTERVAL', .05):
-            self.store.thread.start()
+            self.store.threads[0].start()
             deadline = time.monotonic() + 5
             while self.store.read(ident)['state'] != 'failed' and time.monotonic() < deadline: time.sleep(.02)
             self.assertEqual(self.store.read(ident)['error'], 'job_storage_limit')
@@ -303,7 +303,7 @@ class LocalPDFServerTests(unittest.TestCase):
             (folder/'result.json').write_text('{}')
             return real_popen([sys.executable,'-c','pass'],**kwargs)
         with patch('livesheet.server.subprocess.Popen',side_effect=partial_worker):
-            self.store.thread.start();deadline=time.monotonic()+5
+            self.store.threads[0].start();deadline=time.monotonic()+5
             while self.store.read(ident)['state'] not in {'ready','failed'} and time.monotonic()<deadline:time.sleep(.02)
             self.assertEqual(self.store.read(ident)['state'],'failed')
             self.assertEqual(self.store.read(ident)['error'],'invalid_preparation_result')
@@ -314,7 +314,7 @@ class LocalPDFServerTests(unittest.TestCase):
         def sleeper(*args,**kwargs):
             p=real_popen([sys.executable,'-c','import time; time.sleep(60)'],**kwargs);processes.append(p);return p
         with patch('livesheet.server.subprocess.Popen',side_effect=sleeper):
-            self.store.thread.start();deadline=time.monotonic()+5
+            self.store.threads[0].start();deadline=time.monotonic()+5
             while not processes and time.monotonic()<deadline:time.sleep(.02)
             self.assertTrue(processes);self.store.close()
             self.assertIsNotNone(processes[0].poll())

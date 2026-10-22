@@ -4,6 +4,7 @@ Run inside the verification container. It only listens on container loopback.
 The caller supplies /data/service-input.pdf; all evidence stays in /data.
 """
 
+import fcntl
 import hashlib
 import json
 import os
@@ -83,66 +84,127 @@ def stop(process):
         process.wait(timeout=20)
 
 
+def active_groups():
+    groups = set()
+    for entry in Path("/proc").glob("[0-9]*/cmdline"):
+        try:
+            args = entry.read_bytes().split(b"\0")
+            if b"livesheet.job_runner" in args and str(ROOT).encode() in b" ".join(args):
+                groups.add(int(entry.parent.name))
+        except (OSError, ValueError):
+            pass
+    return groups
+
+
+def descendant_groups(roots):
+    parents, groups = {}, {}
+    for entry in Path('/proc').glob('[0-9]*/stat'):
+        try:
+            fields = entry.read_text().rsplit(')', 1)[1].split()
+            pid = int(entry.parent.name)
+            parents[pid], groups[pid] = int(fields[1]), int(fields[2])
+        except (OSError, ValueError, IndexError):
+            pass
+    owned = set(roots)
+    while True:
+        expanded = owned | {pid for pid, parent in parents.items() if parent in owned}
+        if expanded == owned:
+            return {groups[pid] for pid in owned if pid in groups}
+        owned = expanded
+
+
+def group_alive(group):
+    for entry in Path("/proc").glob("[0-9]*/stat"):
+        try:
+            fields = entry.read_text().rsplit(")", 1)[1].split()
+            if int(fields[2]) == group and fields[0] != "Z":
+                return True
+        except (OSError, ValueError, IndexError):
+            pass
+    return False
+
+
+def wait_stopped(groups):
+    deadline = time.monotonic() + 10
+    while any(group_alive(g) for g in groups):
+        if time.monotonic() > deadline:
+            raise AssertionError("Orphan conversion survived service shutdown")
+        time.sleep(.1)
+    with (ROOT / "storage/server.lock").open("a") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+
+
+def recognizing(ident):
+    return until(ident, lambda j: j["state"] == "running" and j.get("stage") == "recognizing")
+
+
 def main():
     process = None
     with (ROOT / "service.log").open("a") as log:
         try:
             process = start(log)
+            assert request("/health")["workerCount"] == 2
             source = Path("/data/service-input.pdf").read_bytes()
-            job = request(
-                "/jobs",
-                source,
-                headers={
-                    "Content-Type": "application/pdf",
-                    "X-Filename": "Linux service check.pdf",
-                },
-            )
-            ident = job["id"]
-            until(
-                ident,
-                lambda j: j["state"] == "running" and j.get("stage") == "recognizing",
-            )
-            cancelled = request("/jobs/" + ident + "/cancel", b"")
-            assert cancelled["state"] == "cancelled"
-            request("/jobs/" + ident + "/retry", b"")
-            until(
-                ident,
-                lambda j: j["state"] == "running" and j.get("stage") == "recognizing",
-            )
+            def upload():
+                return request("/jobs", source, headers={
+                    "Content-Type": "application/pdf", "X-Filename": "Linux service check.pdf"})["id"]
+            first, second = upload(), upload()
+            recognizing(first)
+            peer = recognizing(second)
+            assert len(active_groups()) == 2
+            queued = upload()
+            assert request("/jobs/" + queued)["state"] == "queued"
+            assert request("/jobs/" + queued + "/cancel", b"")["state"] == "cancelled"
+            assert request("/jobs/" + first + "/cancel", b"")["state"] == "cancelled"
+            unchanged = request("/jobs/" + second)
+            assert unchanged["state"] == "running" and unchanged["startedAt"] == peer["startedAt"]
+            request("/jobs/" + first + "/retry", b"")
+            recognizing(first)
+            groups = active_groups()
+            assert len(groups) == 2
+            groups = descendant_groups(groups)
             stop(process)
             process = None
+            wait_stopped(groups)
             process = start(log)
-            ready = until(ident, lambda j: j["state"] == "ready", timeout=1200)
-            folder = ROOT / "storage" / ident
-            verify_result(folder)
-            original = request("/jobs/" + ident + "/files/source.pdf")
-            assert original == source
-            # Check exact response bytes rather than a decoded/re-encoded JSON object.
-            with urllib.request.urlopen(
-                BASE + "/jobs/" + ident + "/files/companion.json"
-            ) as response:
-                companion = response.read()
-            assert (
-                hashlib.sha256(companion).hexdigest()
-                == ready["result"]["companionSHA256"]
-            )
-            score = request("/jobs/" + ident + "/files/score.json")
-            assert score["ready"]
-            for i in range(ready["pageCount"]):
-                page = request("/jobs/" + ident + f"/files/page-{i + 1}.webp")
-                assert page == (folder / f"web/score/page-{i + 1}.webp").read_bytes()
-            result = dict(
-                job=ident,
-                ready=True,
-                cancelledAndRetried=True,
-                recoveredAfterRestart=True,
-                downloadsVerified=True,
-                notes=len(score["notes"]),
-            )
+            recognizing(first)
+            recognizing(second)
+            groups = active_groups()
+            assert len(groups) == 2
+            # Also test an abrupt server-only crash. Supervisors must kill tools
+            # and retain the store lock until the old attempts stop.
+            groups = descendant_groups(groups)
+            process.kill()
+            process.wait(timeout=10)
+            process = None
+            wait_stopped(groups)
+            process = start(log)
+            verified = []
+            for ident in (first, second):
+                ready = until(ident, lambda j: j["state"] == "ready", timeout=1200)
+                folder = ROOT / "storage" / ident
+                verify_result(folder)
+                assert request("/jobs/" + ident + "/files/source.pdf") == source
+                with urllib.request.urlopen(BASE + "/jobs/" + ident + "/files/companion.json") as response:
+                    companion = response.read()
+                assert hashlib.sha256(companion).hexdigest() == ready["result"]["companionSHA256"]
+                score = request("/jobs/" + ident + "/files/score.json")
+                assert score["ready"]
+                for i in range(ready["pageCount"]):
+                    page = request("/jobs/" + ident + f"/files/page-{i + 1}.webp")
+                    assert page == (folder / f"web/score/page-{i + 1}.webp").read_bytes()
+                verified.append(dict(job=ident, ready=True, notes=len(score["notes"])))
+            assert request("/jobs/" + queued)["state"] == "cancelled"
+            result = dict(jobs=verified, workerCount=2, queuedThird=True,
+                          cancelledAndRetried=True, peerUnaffected=True,
+                          recoveredAfterRestart=True, recoveredAfterCrash=True,
+                          noOrphanTools=True, downloadsVerified=True)
             (ROOT / "verification.json").write_text(json.dumps(result, indent=2) + "\n")
             print(json.dumps(result), flush=True)
         finally:
+            groups = descendant_groups(active_groups())
             stop(process)
+            wait_stopped(groups)
 
 
 if __name__ == "__main__":

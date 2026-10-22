@@ -1,0 +1,10 @@
+# Apply the reviewed Python service to an already verified runtime image.
+# Verify the base image ID before building. Recognition tools and caches are unchanged.
+ARG BASE_IMAGE=bettermuse-livesheet:local
+FROM ${BASE_IMAGE}
+USER root
+COPY pyproject.toml LICENSE THIRD_PARTY_NOTICES.md /build/
+COPY livesheet /build/livesheet
+RUN pip install --no-cache-dir --no-deps /build && rm -rf /build
+COPY source.tar.gz /opt/livesheet-notices/source.tar.gz
+USER 1000:1000

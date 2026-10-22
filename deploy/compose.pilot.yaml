@@ -1,0 +1,36 @@
+services:
+  livesheet:
+    image: bettermuse-livesheet:pilot-20261022-r2
+    pull_policy: never
+    platform: linux/amd64
+    user: '1000:1000'
+    init: true
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    cpus: 2
+    mem_limit: 3g
+    memswap_limit: 3g
+    pids_limit: 512
+    stop_grace_period: 30s
+    expose: ['3176']
+    environment:
+      SERVICE_FQDN_LIVESHEET_3176: https://livesheet.bettermuse.app
+    command: ['--bind', '0.0.0.0', '--storage', '/data/jobs', '--workers', '2', '--pilot-host', 'livesheet.bettermuse.app', '--pilot-credentials', '/run/pilot/access.json']
+    volumes:
+      - /opt/livesheet-pilot/data:/data
+      - /opt/livesheet-pilot/secrets:/run/pilot:ro
+    tmpfs:
+      - /tmp:rw,exec,nosuid,nodev,size=512m
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+    healthcheck:
+      test: ['CMD', 'python', '-c', "import urllib.request; urllib.request.urlopen('http://127.0.0.1:3176/health', timeout=3).read()"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3

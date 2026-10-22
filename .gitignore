@@ -8,6 +8,10 @@ artifacts/
 .private/
 dist/
 .env
+.env.*
+!.env.example
+/tmp/
+/output/
 .DS_Store
 tests/data/
 downloads/
