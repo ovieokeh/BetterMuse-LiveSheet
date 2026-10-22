@@ -4,14 +4,24 @@ LiveSheet owns the extracted worker and service implementation. The BetterMuse
 app, website, score library, catalogue import commands and their existing assets
 remain in BetterMuse. This split does not change their playback contracts.
 
-## Active local setup
+## Active hosted test clients — 22 October 2026
 
-The BetterMuse website and development app now use this standalone container.
+The website test proxy and BetterMuse Dev now call the restricted HTTPS pilot.
+See [hosted pilot](hosted-pilot.md) and
+[client setup](../../BetterMuse/docs/local-pdf-preparation.md).
+The website itself remains local. The public website and App Store build have
+not been deployed or enabled for uploads. No existing local PDFs were migrated.
+
+## Optional local setup (retained for pipeline development)
+
+The website and development app can still use this standalone local container.
 The Mac service from the original repository is stopped.
 
 - Website: the existing Next.js proxy calls `http://127.0.0.1:3176`.
 - Trill: the existing development connection uses `http://phoenix.local:3177`.
-- Storage: `data/jobs/`. Compiler caches: `data/cache/`.
+- Storage: `data/jobs/`. Shared seed cache: `data/cache/`. Each active attempt has
+  private settings and compiler caches in disposable `data/jobs/runtime-*` folders.
+- Two active conversions by default; additional uploads wait in the persistent queue.
 - Device key: `data/device-token`, ignored by Git, mode 0600.
 - The original job IDs, device key, owner identifiers and client URLs are unchanged.
   App checkpoints and old browser listening links therefore retain their identity.

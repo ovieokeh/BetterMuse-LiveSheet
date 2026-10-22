@@ -63,6 +63,60 @@ and all comparisons. Reruns reuse a result only when the input and image identit
 match and the committed bundle still validates. Use a new `--output` directory to
 force a fresh run. `--ids` selects a subset for investigation, not a full release.
 
+## Local memory benchmark
+
+```sh
+.venv/bin/python tools/benchmark_memory.py \
+  --output artifacts/memory-benchmark-new-run \
+  --limits 3g 4g --repeats 2
+```
+
+The output directory must be new. Each case gets isolated storage and fresh
+recognition. The default cases are the three private reviewed scores. Use
+`--ids` to select other corpus cases. References and source hashes are checked by
+the same verifier used for release checks. No validation thresholds change.
+
+The containers have two CPUs and no swap. An in-container probe records the
+cgroup v2 memory high-water mark, memory-limit events, CPU usage and worker wall
+time before exit. Peak memory includes child processes and charged file cache.
+Missing measurements are failures, not zero memory usage. Repeats reverse the
+memory-limit order. Source PDFs and results stay in ignored local artifacts.
+
+This measures worker memory requirements. It does not emulate a whole small
+server or predict another CPU's speed. Leave room for the operating system,
+Docker and the API. Test the actual host before opening public uploads.
+
+See [memory-benchmark.md](memory-benchmark.md) for the 2026-10-22 sizing results.
+
+## Local concurrency benchmark
+
+```sh
+.venv/bin/python tools/benchmark_concurrency.py \
+  --output artifacts/concurrency-benchmark-new-run
+```
+
+This runs the three private reviewed scores with one and two workers under two
+aggregate budgets: 2 CPUs/3 GiB and 4 CPUs/6 GiB. Each batch runs inside one
+container, so concurrent jobs share the stated budget. Swap remains disabled.
+Each job has private storage, compiler caches and desktop-tool settings.
+The default matrix needs a host with at least four CPUs and more than 6 GiB
+available to Docker. On a smaller host, select matching budgets explicitly:
+`--config 2 3g 1 --config 2 3g 2`. The tool rejects budgets above host capacity.
+
+Two rounds reverse both configuration order and queue order. All processing is
+fresh. After processing, the existing verifier checks those outputs without
+rerunning missing or failed jobs. Its `reused` flag refers to this validation
+step, not reuse of results from a previous benchmark. References are never
+mounted into the worker container.
+
+Results include total batch time, aggregate peak memory, CPU usage, individual
+processing time, queue wait and completion time from batch submission. This is
+a conversion-capacity experiment. It does not implement or validate concurrent
+dispatch, cancellation or recovery in the production HTTP service.
+
+See [concurrency-benchmark.md](concurrency-benchmark.md) for the measured results
+and the additional four-core / 3 GiB comparison.
+
 ## Deliberately broken exports
 
 The test image contains `/opt/livesheet-tools/check_mutations.py`. Run it with a
@@ -79,12 +133,40 @@ duration, velocity, tempo, repeat order and final duration.
 
 `/opt/livesheet-tools/check_service.py` in the test image reads
 `/data/service-input.pdf`. It starts the installed service on container loopback,
-uploads a real PDF, cancels during recognition, retries, restarts during work,
-waits for readiness and verifies original/companion/page downloads. Evidence is
+uploads two real PDFs concurrently, checks a third waits, cancels and retries
+one while its peer continues, and tests both graceful restart and an abrupt
+server-only crash. It checks process groups are gone before restart, then verifies
+both output bundles and original/companion/page downloads. Evidence is
 written to `/data/service-check/`.
 
 All containers used for these checks run non-root, with a read-only root
 filesystem, bounded CPU/memory/process counts and writable test storage only.
+
+### Two-worker local checkpoint — 2026-10-22
+
+- Full Linux suite: 259 tests passed, zero skips. This includes private fixtures
+  and lifecycle tests with real processes, detached tool sessions and forced exits.
+- Two simultaneous five-page Peaceful Sleep conversions ran through the HTTP API
+  under the existing shared 2 CPU / 4 GiB container limit. A third upload queued.
+- Cancelling and immediately retrying one job left its peer running. A graceful
+  service stop and an abrupt server-only crash both stopped descendant tools.
+  Both interrupted jobs recovered. The cancelled queued job stayed cancelled.
+- Both recovered bundles passed normal validation and download hash checks.
+  All 771 reviewed note events matched exactly in each result. The existing
+  timing, tempo and printed-reference comparisons also passed.
+- The local website and authenticated device APIs now report two healthy workers.
+  All 45 pre-existing jobs retained their states and source/output hashes.
+- The first integration attempt was refused by the unchanged 10 GiB disk guard.
+  Removing disposable LiveSheet build cache restored space; the rerun passed.
+
+Evidence: `artifacts/two-worker-service-20261022/` contains image identities,
+source hashes, the unit-test summary, lifecycle report, musical comparisons and
+local cutover verification. `artifacts/unit-tests/report.json` records the suite.
+
+This validates local Linux scheduling and lifecycle behavior. It is not a cloud
+load test or a guarantee that two arbitrary maximum-complexity PDFs fit 4 GiB.
+No musical rules, reference answers or validation thresholds changed in this pass.
+
 
 ## Release evidence
 

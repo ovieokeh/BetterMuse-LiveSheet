@@ -3,8 +3,9 @@
 ## Job flow
 
 1. `server.py` validates uploads, saves the original, creates the initial preview,
-   queues work and reports progress. One worker runs at a time.
-2. `worker.py` coordinates one isolated job. It does not own an HTTP request.
+   queues work and reports progress. At most two workers run at a time.
+2. `job_runner.py` supervises a private process group. `worker.py` coordinates
+   one isolated job. Neither owns an HTTP request.
 3. `recognition.py` drives Audiveris and export recovery. PyMuPDF supplies page
    inspection, previews and supporting printed evidence.
 4. `pdf_experimental.py` coordinates optional source-backed repair candidates.
@@ -27,6 +28,7 @@ not. No score-specific musical rules were introduced for the split.
 | Module | Owns |
 | --- | --- |
 | `server` | Upload limits, queue, retention, cancellation, retry and restart |
+| `job_runner` | Parent liveness and per-attempt process-group ownership |
 | `worker` | Per-job orchestration and packaging |
 | `pdf_pipeline/config` | Immutable per-job tool and output settings |
 | `pdf_pipeline/stages` | Stage order, proposal isolation and diagnostic outcomes |
@@ -76,3 +78,25 @@ This remains a single-host local service. A public deployment still needs an
 authenticated front door, per-user access and quotas, transport security,
 operational monitoring, storage/retention policy, and distribution-license review.
 Container isolation is one boundary; it is not a complete hostile-upload sandbox.
+
+## Scheduler ownership
+
+Queue claims and state changes share one lock. Each active job keeps its own
+process reservation until its process group stops and its temporary directory is
+removed. An immediate retry can queue but cannot start during that cleanup.
+Ready output still requires the existing full artifact validation.
+
+Each attempt gets separate HOME, XDG settings, TMPDIR and compiler cache paths.
+They live in disposable `runtime-*` directories under job storage, so the disk
+watchdog counts them. Shutdown joins both runners before releasing the store lock.
+
+The supervisor inherits the store lock. On Linux it also adopts orphaned tool
+processes, including Audiveris tools in separate sessions. If the server crashes,
+it kills and reaps all of its descendants when its parent disappears. Another server cannot open the store
+until those supervisors exit. A whole-container restart also removes all old
+processes. Startup removes abandoned temporary directories and requeues running
+jobs. It never requeues a cancelled job.
+
+Concurrency remains capped at two. This is a measured pilot setting, not a promise
+that two arbitrary maximum-size PDFs fit every memory budget. CPU/RAM remain
+bounded by the container. `--workers 1` is available for constrained hosts.

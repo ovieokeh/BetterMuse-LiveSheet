@@ -28,7 +28,8 @@ Upload headers:
   provenance; it no longer selects an optional mode.
 - `Idempotency-Key` is optional for local web access. Reusing it with another PDF
   fails. A repeated key for an existing job returns that job unchanged, even if
-  it was prepared by the retired pipeline. The opt-in native access path requires a UUID-shaped key.
+  it was prepared by the retired pipeline. The opt-in native and hosted pilot
+  access paths require a UUID-shaped key.
 
 States are `queued`, `running`, `ready`, `failed`, and `cancelled`. Polling reports
 stage progress. Clients must preserve the readable original if preparation fails.
@@ -37,11 +38,18 @@ Do not infer readiness from a file appearing on disk or from elapsed time.
 ## Limits and recovery
 
 - 25 MiB, 20 pages per PDF; encrypted/invalid PDFs fail inspection.
-- At most 10 unfinished jobs, with one recognition worker.
+- At most 10 unfinished jobs, with at most two recognition workers (default two; `--workers 1` is supported).
 - 40-minute worker deadline; process-group cancellation.
-- 2 GiB per running job, 8 GiB total store, 10 GiB free-space floor.
+- 2 GiB disk per running job, including its temporary files and compiler cache;
+  8 GiB total store; 10 GiB free-space floor. These are disk limits, not RAM limits.
 - Finished jobs and quarantine records expire after seven days.
-- Interrupted work is requeued on service restart.
+- Interrupted work is requeued on service restart. Cancelled jobs stay cancelled.
+- Cancellation/deletion targets only that job. Retry waits for the old attempt
+  to stop and release its slot.
+- Local `/health` retains `worker` and adds `workerCount` (1 or 2).
+  Hosted `/health` exposes only `healthy`; detailed hosted metrics require an
+  operator credential. See [hosted access and limits](hosted-pilot.md).
+- Mutations during shutdown return HTTP 503 (`service_stopping`).
 - Corrupt job metadata is quarantined. Invalid completed output is rejected.
 
 All existing limits are retained. Docker Desktop may report guest filesystem free

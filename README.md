@@ -1,11 +1,33 @@
 # BetterMuse LiveSheet
 
-Local PDF-to-playback preparation for BetterMuse. The service accepts a printed
+PDF-to-playback preparation for BetterMuse. The service accepts a printed
 music PDF and produces the existing web score and native companion formats.
 It does not render the app UI or implement practice grading.
 
 Recognition can still miss or misread music. A ready job means the output bundle
 passed its structural and integrity checks. It is not a musical accuracy claim.
+
+## Current setup and documentation
+
+The restricted hosted pilot runs at `https://livesheet.bettermuse.app` on
+`k3o-runner`, managed through Coolify. BetterMuse Dev and the local website test
+client use it. The public website and App Store app have not been enabled for
+hosted uploads. The local container remains available for development.
+
+- [Architecture](docs/architecture.md): pipeline stages, tools, and code boundaries.
+- [API and output contracts](docs/api.md): jobs, progress, files, and validation.
+- [App and website connections](../BetterMuse/docs/local-pdf-preparation.md):
+  current client configuration, credential storage, testing, and local rollback.
+- [Hosted pilot operations](docs/hosted-pilot.md): Hetzner/Coolify deployment,
+  authentication, limits, monitoring, alerts, recovery, and remaining release work.
+- [Verification](docs/verification.md): automated checks and musical references.
+- [Memory](docs/memory-benchmark.md) and [concurrency](docs/concurrency-benchmark.md):
+  measured resource use and worker scheduling.
+- [Extraction history](docs/extraction.md) and [local integration](docs/local-integration.md):
+  repository split, retained local setup, and migration history.
+
+Client-document links assume the two repositories are sibling directories.
+Credentials and private scores are excluded from documentation and Git.
 
 ## Start locally
 
@@ -39,6 +61,10 @@ replacing an existing BetterMuse preview service.
 docker compose logs -f livesheet
 docker compose stop
 ```
+
+Two conversions run at a time. Additional uploads wait in the persistent queue.
+Use `--workers 1` when running the service directly to limit it to one conversion.
+Each conversion has private tool settings, temporary files and a compiler cache.
 
 Stopping preserves jobs. Starting again requeues interrupted work. The service
 retains finished uploads for seven days, unless deleted sooner.
@@ -74,6 +100,7 @@ The generated reference corpus is included. Private listening-review PDFs are
 not. Their optional checks are documented separately and never silently counted
 as passing when absent.
 
-This repository is local-only at the extraction checkpoint. No remote repository,
-registry push, or hosted service has been created. See LICENSE and
+The configured origin is `https://github.com/ovieokeh/BetterMuse-LiveSheet.git`.
+Source pushes do not redeploy the hosted pilot. It uses a verified image
+transferred directly to its server. See LICENSE and
 [third-party notices](THIRD_PARTY_NOTICES.md) before distribution.
